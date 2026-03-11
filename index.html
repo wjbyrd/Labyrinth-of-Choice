@@ -7,7 +7,8 @@
 
 body{
 font-family:Arial;
-background:linear-gradient(180deg,#0b0b0b,#111827);
+background:radial-gradient(circle at center, #111827 0%, #020617 80%),
+linear-gradient(180deg,#020617,#000000);
 color:white;
 text-align:center;
 margin:0;
@@ -72,7 +73,7 @@ text-shadow:0 0 8px rgba(251,191,36,0.7);
 }
 
 @keyframes bossFlash {
-0% { background:#7f1d1d; }
+0% { background:var(--bossColor,#7f1d1d); }
 100% { background:#1f2937; }
 }
 
@@ -99,7 +100,7 @@ animation:shake 0.4s ease;
 
 <div id="gameBox">
 
-<h2>Midterm Maze</h2>
+<h2>The Microeconomics Gauntlet</h2>
 
 <div id="progressBar">
 <div id="progressFill"></div>
@@ -318,22 +319,22 @@ let track="";
 
 for(let i=1;i<=30;i++){
 
-let icon="⬛ ";
+let icon="⬛";
 
 if(i < room){
-icon="🟩 ";
+icon="🟩";
 }
 
 else if(i === room){
-icon="🟥 ";
+icon="🟥";
 }
 
 else if((i === 10 || i === 20) && i >= room){
-icon="👹 ";
+icon="👹";
 }
 
 else if(i === 30 && i >= room){
-icon="👑 ";
+icon="👑";
 }
 
 track += icon + " ";
@@ -357,13 +358,33 @@ currentQuestion=q
 
 document.getElementById("roomDisplay").innerText="Room "+room+" of 30"
   
+let bossTitle = "";
+let bossColor = "";
+
+if(room === 10){
+bossTitle = "⚔ Warden of Indifference";
+bossColor = "#fbbf24";
+}
+
+if(room === 20){
+bossTitle = "⚔ The Decomposer of Choice";
+bossColor = "#a855f7";
+}
+
+if(room === 30){
+bossTitle = "👑 Sovereign of Elasticity";
+bossColor = "#ef4444";
+}
+
 if(diff.includes("Boss")){
 
 document.getElementById("question").innerHTML =
-'<span class="boss">Guardian of Utility Maximization</span><br>'+q.q
+'<span class="boss" style="color:'+bossColor+'">'+bossTitle+'</span><br>'+q.q
 
 let box = document.getElementById("gameBox")
 
+box.style.setProperty('--bossColor', bossColor);
+  
 box.classList.add("bossFlash")
 box.classList.add("shake")
 
@@ -405,7 +426,7 @@ if(room>30){
 
 let code = generateCode();
 
-document.getElementById("question").innerHTML="<h2>You escaped the Midterm Maze!</h2>";
+document.getElementById("question").innerHTML="<h2>You have conquered the Microeconomics Gauntlet!</h2>";
 
 document.getElementById("answers").innerHTML="";
 
