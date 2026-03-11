@@ -368,12 +368,16 @@ else if(i < room){
 icon="🟩";
 }
 
-else if((i === 10 || i === 20) && i >= room){
-icon="👹";
+if(i === 10 && i >= room){
+icon="⚔ Warden of Indifference";
+}
+
+else if(i === 20 && i >= room){
+icon="👹 Decomposer of Choice";
 }
 
 else if(i === 30 && i >= room){
-icon="👑";
+icon="👑 Sovereign of Elasticity";
 }
 
   
