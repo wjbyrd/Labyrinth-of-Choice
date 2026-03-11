@@ -397,6 +397,7 @@ document.getElementById("message").innerText="Correct!"
 room = Math.min(room,31) 
 }
 if(room > 30){
+    updateMazeTrack();
     // Clear the lingering room and boss text
     document.getElementById("roomDisplay").innerText = "";
     document.getElementById("bossMessage").innerText = "";
