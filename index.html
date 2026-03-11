@@ -4,27 +4,51 @@
 <title>Midterm Maze</title>
 
 <style>
+
 body{
 font-family:Arial;
-background:#111;
+background:#0b0b0b;
 color:white;
 text-align:center;
 }
 
 #gameBox{
-width:700px;
+width:750px;
 margin:auto;
-padding:20px;
-background:#222;
-border-radius:10px;
+margin-top:40px;
+padding:25px;
+background:#1a1a1a;
+border-radius:12px;
 }
 
 button{
-padding:10px 18px;
+padding:10px 20px;
 margin:8px;
 font-size:16px;
 cursor:pointer;
 }
+
+#progressBar{
+width:100%;
+background:#333;
+height:20px;
+border-radius:10px;
+margin-bottom:15px;
+}
+
+#progressFill{
+height:100%;
+width:0%;
+background:#4CAF50;
+border-radius:10px;
+}
+
+.boss{
+color:#ffcc00;
+font-weight:bold;
+font-size:20px;
+}
+
 </style>
 </head>
 
@@ -34,8 +58,11 @@ cursor:pointer;
 
 <h2>Midterm Maze</h2>
 
-<p id="level">Level: Easy</p>
+<div id="progressBar">
+<div id="progressFill"></div>
+</div>
 
+<p id="roomDisplay"></p>
 <p id="question"></p>
 
 <div id="answers"></div>
@@ -46,36 +73,81 @@ cursor:pointer;
 
 <script>
 
-let level="easy"
-let questionIndex=0
+let room = 1
 
-const mazeQuestions={
+const questionBanks = {
 
 easy:[
-{q:"If price rises, quantity demanded usually...",options:["Falls","Rises","Does nothing","Doubles"],a:0},
-{q:"Demand curves slope...",options:["Up","Down","Sideways","Circular"],a:1},
+{q:"If price rises, quantity demanded usually...",options:["Falls","Rises","No change","Doubles"],a:0},
+{q:"Demand curves slope...",options:["Up","Down","Flat","Vertical"],a:1},
 {q:"Opportunity cost means...",options:["Lost alternative","Money price","Profit","Demand shift"],a:0}
 ],
 
 medium:[
-{q:"An inferior good experiences...",options:["Demand falls when income rises","Demand rises when income rises","No change","Perfect elasticity"],a:0},
-{q:"Elastic demand means...",options:["Quantity very responsive","Quantity unresponsive","Supply shifts","Price fixed"],a:0}
+{q:"Inferior goods experience...",options:["Demand falls when income rises","Demand rises when income rises","No change","Perfect elasticity"],a:0},
+{q:"Elastic demand means...",options:["Quantity very responsive to price","Quantity unresponsive","Supply shifts","Price fixed"],a:0}
 ],
 
 hard:[
-{q:"If demand is elastic and price rises...",options:["Revenue rises","Revenue falls","Revenue unchanged","Revenue doubles"],a:1},
+{q:"If demand is elastic and price rises...",options:["Revenue rises","Revenue falls","No effect","Revenue doubles"],a:1},
 {q:"Marginal cost intersects average cost at...",options:["Minimum AC","Maximum AC","Demand curve","Profit"],a:0}
+],
+
+easyBoss:[
+{q:"A binding price ceiling causes...",options:["Shortage","Surplus","No effect","Higher equilibrium"],a:0}
+],
+
+mediumBoss:[
+{q:"Cross-price elasticity > 0 means goods are...",options:["Substitutes","Complements","Inferior","Giffen"],a:0}
+],
+
+finalBoss:[
+{q:"Profit maximization occurs when...",options:["MR = MC","MR = Demand","MC = AC","TR = TC"],a:0}
 ]
+
+}
+
+function difficulty(){
+
+if(room<=9) return "easy"
+if(room==10) return "easyBoss"
+if(room<=19) return "medium"
+if(room==20) return "mediumBoss"
+if(room<=29) return "hard"
+return "finalBoss"
+
+}
+
+function randomQuestion(set){
+
+return set[Math.floor(Math.random()*set.length)]
+
+}
+
+function updateProgress(){
+
+let percent=(room-1)/30*100
+document.getElementById("progressFill").style.width=percent+"%"
 
 }
 
 function loadQuestion(){
 
-let set=mazeQuestions[level]
-let q=set[questionIndex]
+updateProgress()
 
-document.getElementById("level").innerText="Level: "+level
+let diff=difficulty()
+
+let q=randomQuestion(questionBanks[diff])
+
+currentQuestion=q
+
+document.getElementById("roomDisplay").innerText="Room "+room+" of 30"
+
+if(diff.includes("Boss")){
+document.getElementById("question").innerHTML='<span class="boss">BOSS ROOM</span><br>'+q.q
+}else{
 document.getElementById("question").innerText=q.q
+}
 
 let html=""
 
@@ -89,32 +161,36 @@ document.getElementById("answers").innerHTML=html
 
 function answer(choice){
 
-let q=mazeQuestions[level][questionIndex]
+let diff=difficulty()
 
-if(choice===q.a){
-
-questionIndex++
-
-if(questionIndex>=mazeQuestions[level].length){
-
-if(level==="easy"){level="medium"}
-else if(level==="medium"){level="hard"}
-else{
-document.getElementById("message").innerText="You escaped the maze!"
-return
-}
-
-questionIndex=0
-}
+if(choice===currentQuestion.a){
 
 document.getElementById("message").innerText="Correct!"
 
+room++
+
+if(room>30){
+document.getElementById("question").innerHTML="<h2>You escaped the maze!</h2>"
+document.getElementById("answers").innerHTML=""
+document.getElementById("message").innerText=""
+return
+}
+
 }else{
 
-document.getElementById("message").innerText="Wrong! Back to Easy."
+let setback=0
 
-level="easy"
-questionIndex=0
+if(diff==="easy") setback=3
+if(diff==="medium") setback=4
+if(diff==="hard") setback=5
+if(diff==="easyBoss") setback=3
+if(diff==="mediumBoss") setback=5
+if(diff==="finalBoss") setback=7
+
+room=Math.max(1,room-setback)
+
+document.getElementById("message").innerText="Wrong! You fell back "+setback+" rooms."
+
 }
 
 loadQuestion()
