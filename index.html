@@ -435,6 +435,7 @@ if(choice===currentQuestion.a){
 
 let bonusRoll = Math.random()
 
+// Boss rooms never trigger bonuses
 if(diff.includes("Boss")){
 room++
 document.getElementById("message").innerText="Correct!"
@@ -442,12 +443,22 @@ document.getElementById("message").innerText="Correct!"
 
 else{
 
-if(bonusRoll < 0.025){
+// Early rooms are calm: no bonuses yet
+if(room < 5){
+room++
+document.getElementById("message").innerText="Correct!"
+}
+
+else{
+
+// Secret passage (cannot skip the first boss and never affects final boss)
+if(room >= 10 && room < 30 && bonusRoll < 0.005){
 room += 3
 document.getElementById("message").innerText="Correct! 🚪 Secret Passage! Skip three rooms."
 }
 
-else if(bonusRoll < 0.10){
+// Hidden treasure
+else if(room < 30 && bonusRoll < 0.015){
 room += 2
 document.getElementById("message").innerText="Correct! 💎 Hidden Treasure! Advance two rooms."
 }
@@ -457,9 +468,6 @@ room++
 document.getElementById("message").innerText="Correct!"
 }
 
-if(room < 5 && bonusRoll >= 0.15){
-room += 1
-document.getElementById("message").innerText="Correct! ✨ Healing Fountain restores momentum."
 }
 
 room = Math.min(room,30)
