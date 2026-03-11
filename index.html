@@ -253,7 +253,8 @@ function answer(choice){
             document.getElementById("mazeTrack").classList.add("victory");
             let time = Math.floor((Date.now()-startTime)/60000)+"m "+Math.floor(((Date.now()-startTime)/1000)%60)+"s";
             setTimeout(() => {
-                document.getElementById("gameBox").innerHTML = `<h2 class="victory">CONQUERED!</h2><div style="background:#1f2937;padding:20px;border-radius:10px;margin-top:20px;"><p>Time: ${time}</p><p>Code: <span style='color:#fbbf24;font-size:24px;'>MAZE-${rand(1000,9999)}</span></p></div>`;
+               document.getElementById("gameBox").innerHTML = `<h2 class="victory">CONQUERED!</h2><div style="background:#1f2937;padding:20px;border-radius:10px;margin-top:20px;"><p>Adventurer: <strong>${username}</strong></p>     <p>Time: ${time}</p>
+        <p>Code: <span style='color:#fbbf24;font-size:24px;'>MAZE-${rand(1000,9999)}</span></p></div>`;
                 localStorage.removeItem("gauntletRoom");
             }, 1000);
             return;
