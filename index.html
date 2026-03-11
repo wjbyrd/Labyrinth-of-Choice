@@ -203,21 +203,21 @@ let track="";
 
 for(let i=1;i<=30;i++){
 
-let icon="⬛";
+let icon="⬛ ";
 
 if(i < room){
-icon="🟩";
+icon="🟩 ";
 }
 
 else if(i === room){
-icon="🟥";
+icon="🟥 ";
 }
 
-else if(i === 10 || i === 20){
+else if((i === 10 || i === 20) && i >= room){
 icon="👹";
 }
 
-else if(i === 30){
+else if(i === 30 && i >= room){
 icon="👑";
 }
 
