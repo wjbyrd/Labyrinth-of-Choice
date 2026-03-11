@@ -71,6 +71,27 @@ font-size:22px;
 text-shadow:0 0 8px rgba(251,191,36,0.7);
 }
 
+@keyframes bossFlash {
+0% { background:#7f1d1d; }
+100% { background:#1f2937; }
+}
+
+@keyframes shake {
+0% { transform:translateX(0); }
+25% { transform:translateX(-6px); }
+50% { transform:translateX(6px); }
+75% { transform:translateX(-4px); }
+100% { transform:translateX(0); }
+}
+
+.bossFlash{
+animation:bossFlash 0.6s ease;
+}
+
+.shake{
+animation:shake 0.4s ease;
+}
+
 </style>
 </head>
 
@@ -338,7 +359,18 @@ document.getElementById("roomDisplay").innerText="Room "+room+" of 30"
 
 if(diff.includes("Boss")){
 document.getElementById("question").innerHTML='<span class="boss">Guardian of Utility Maximization</span><br>'+q.q
-}else{
+}
+let box = document.getElementById("gameBox")
+
+box.classList.add("bossFlash")
+box.classList.add("shake")
+
+setTimeout(()=>{
+box.classList.remove("bossFlash")
+box.classList.remove("shake")
+},600)
+}
+else{
 document.getElementById("question").innerText=q.q
 }
 
