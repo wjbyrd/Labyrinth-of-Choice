@@ -331,22 +331,38 @@ if(room<=29) return "hard"
 return "finalBoss"
 }
 
-function randomQuestion(poolName){
-// Dynamic math for final 4 rooms of Hard difficulty (Rooms 26, 27, 28, 29)
-if(poolName === "hard" && room >= 26 && room <= 29){
-    return generateMUDollarQuestion();
-}
+// Add this new variable at the top of your script with the other 'let' variables
+let finalStretchPool = [];
 
-let pool = questionBanks[poolName]
-let used = usedQuestions[poolName]
-let available = pool.filter(q => !used.includes(q))
-if(available.length === 0){
-usedQuestions[poolName] = []
-available = pool
-}
-let question = available[Math.floor(Math.random()*available.length)]
-usedQuestions[poolName].push(question)
-return question
+function randomQuestion(poolName) {
+    // Logic for the "Final Stretch" (Rooms 26, 27, 28, 29)
+    if (poolName === "hard" && room >= 26 && room <= 29) {
+        // Refill the pool if it's empty
+        if (finalStretchPool.length === 0) {
+            finalStretchPool = shuffleArray(["math", "math", "static", "static"]);
+        }
+
+        let choice = finalStretchPool.pop();
+
+        if (choice === "math") {
+            return generateMUDollarQuestion();
+        } 
+        // If 'static', it falls through to the normal logic below
+    }
+
+    // Standard static question logic
+    let pool = questionBanks[poolName];
+    let used = usedQuestions[poolName];
+    let available = pool.filter(q => !used.includes(q));
+
+    if (available.length === 0) {
+        usedQuestions[poolName] = [];
+        available = pool;
+    }
+
+    let question = available[Math.floor(Math.random() * available.length)];
+    usedQuestions[poolName].push(question);
+    return question;
 }
 
 function updateProgress(){
