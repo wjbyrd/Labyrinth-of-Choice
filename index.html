@@ -72,6 +72,7 @@ h2{ text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2); 
 </div>
 
 <script>
+const sfxMilestone = new Audio('841172__mlaudio__magic_ding.wav');
 let username = localStorage.getItem("gauntletUser");
 
 if (!username) {
@@ -308,17 +309,23 @@ function answer(choice) {
         // Handle Streak Announcements
         let streakMsg = "";
         let streakColor = "#60a5fa"; // Default Blue
+if (streak === 5 || streak === 10 || streak === 20) {
+    sfxMilestone.currentTime = 0; // Reset to start
+    sfxMilestone.play();
+    
+    // Existing milestone message logic
+    if (streak === 5) {
+        streakMsg = "🔥 STREAK: Economic Insight!";
+        streakColor = "#fbbf24"; 
+    } else if (streak === 10) {
+        streakMsg = "⚡ STREAK: Market Shock!";
+        streakColor = "#f87171";
+    } else if (streak === 20) {
+        streakMsg = "🌌 STREAK: Policy Reform!";
+        streakColor = "#a855f7";
+    }
+}
 
-        if (streak === 5) {
-            streakMsg = "🔥 STREAK: Economic Insight!";
-            streakColor = "#fbbf24"; // Gold
-        } else if (streak === 10) {
-            streakMsg = "⚡ STREAK: Market Shock!";
-            streakColor = "#f87171"; // Red
-        } else if (streak === 20) {
-            streakMsg = "🌌 STREAK: Policy Reform!";
-            streakColor = "#a855f7"; // Purple
-        }
 
         if (streakMsg) {
             document.getElementById("streakDisplay").innerText = streakMsg;
