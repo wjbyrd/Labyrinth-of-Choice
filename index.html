@@ -357,12 +357,12 @@ if (streak === 5 || streak === 10 || streak === 20) {
         if (room > 30) {
             bgMusic.pause();
             document.getElementById("mazeTrack").classList.add("victory");
-            sfxVictory.play();
             const totalTimeMs = Date.now() - startTime;
             const timeString = formatTime(totalTimeMs);
             const topScores = updateHighScores(totalTimeMs);
 
             setTimeout(() => {
+                sfxVictory.play();
                 let scoreRows = topScores.map((s, i) => 
                     `<tr style="${s.time === totalTimeMs ? 'color:#fbbf24;' : ''}">
                         <td>${i + 1}. ${s.name}</td>
