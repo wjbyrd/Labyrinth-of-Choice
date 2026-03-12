@@ -60,6 +60,7 @@ h2{ text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2); 
     <p id="areaDisplay" class="area-title"></p>
     <div id="progressBar"><div id="progressFill"></div></div>
     <div id="mazeTrack"></div>
+     <div id="streakDisplay" style="font-weight:bold; color:#60a5fa; height:24px; margin-top:5px;"></div>
     <p id="roomDisplay"></p>
     <p id="bossMessage"></p>
     <div id="questionContainer">
@@ -78,6 +79,7 @@ if (!username) {
     if (!username) username = "Adventurer"; // Fallback if they hit cancel
     localStorage.setItem("gauntletUser", username);
 }
+let streak = 0; // Add this with your other variables
 let startTime = Date.now();
 let room = localStorage.getItem("gauntletRoom") ? parseInt(localStorage.getItem("gauntletRoom")) : 1;
 let currentQuestion;
@@ -298,40 +300,77 @@ function loadQuestion(){
     document.getElementById("answers").innerHTML = opts.map(o=>`<button onclick="answer(${o.index})">${o.text}</button>`).join("");
 }
 
-function answer(choice){
-    if(choice === currentQuestion.a){
+function answer(choice) {
+    if (choice === currentQuestion.a) {
         room++;
+        streak++; // Increment streak
+        
+        // Handle Streak Announcements
+        let streakMsg = "";
+        let streakColor = "#60a5fa"; // Default Blue
+
+        if (streak === 5) {
+            streakMsg = "🔥 STREAK: Economic Insight!";
+            streakColor = "#fbbf24"; // Gold
+        } else if (streak === 10) {
+            streakMsg = "⚡ STREAK: Market Shock!";
+            streakColor = "#f87171"; // Red
+        } else if (streak === 20) {
+            streakMsg = "🌌 STREAK: Policy Reform!";
+            streakColor = "#a855f7"; // Purple
+        }
+
+        if (streakMsg) {
+            document.getElementById("streakDisplay").innerText = streakMsg;
+            document.getElementById("streakDisplay").style.color = streakColor;
+            // Pulse effect
+            document.getElementById("streakDisplay").animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.2)' },
+                { transform: 'scale(1)' }
+            ], { duration: 500 });
+        } else if (streak > 0) {
+            document.getElementById("streakDisplay").innerText = `Streak: ${streak}`;
+            document.getElementById("streakDisplay").style.color = "#60a5fa";
+        }
+
         document.getElementById("message").innerText = "Correct!";
-if (room > 30) {
-    document.getElementById("mazeTrack").classList.add("victory");
-    const totalTimeMs = Date.now() - startTime;
-    const timeString = formatTime(totalTimeMs);
-    const topScores = updateHighScores(totalTimeMs);
 
-    setTimeout(() => {
-        let scoreRows = topScores.map((s, i) => 
-            `<tr style="${s.time === totalTimeMs ? 'color:#fbbf24;' : ''}">
-                <td>${i + 1}. ${s.name}</td>
-                <td>${formatTime(s.time)}</td>
-            </tr>`).join("");
+        // Victory Logic
+        if (room > 30) {
+            document.getElementById("mazeTrack").classList.add("victory");
+            const totalTimeMs = Date.now() - startTime;
+            const timeString = formatTime(totalTimeMs);
+            const topScores = updateHighScores(totalTimeMs);
 
-        document.getElementById("gameBox").innerHTML = `
-            <h2 class="victory">CONQUERED!</h2>
-            <div style="background:#1f2937;padding:20px;border-radius:10px;margin-top:20px;">
-                <p>Well done, <strong>${username}</strong>! Your time: ${timeString}</p>
-                <hr style="border:0; border-top:1px solid #374151; margin:15px 0;">
-                <h3 style="margin-top:0;">🏆 Local Hall of Fame</h3>
-                <table style="width:100%; text-align:left; border-collapse:collapse;">
-                    ${scoreRows}
-                </table>
-                <p style="margin-top:20px;">Verification Code: <span style='color:#fbbf24;font-size:20px;'>MAZE-${rand(1000, 9999)}</span></p>
-                <button onclick="location.reload()">Try Again</button>
-            </div>`;
-        localStorage.removeItem("gauntletRoom");
-    }, 1000);
-    return;
-}
+            setTimeout(() => {
+                let scoreRows = topScores.map((s, i) => 
+                    `<tr style="${s.time === totalTimeMs ? 'color:#fbbf24;' : ''}">
+                        <td>${i + 1}. ${s.name}</td>
+                        <td>${formatTime(s.time)}</td>
+                    </tr>`).join("");
+
+                document.getElementById("gameBox").innerHTML = `
+                    <h2 class="victory">CONQUERED!</h2>
+                    <div style="background:#1f2937;padding:20px;border-radius:10px;margin-top:20px;">
+                        <p>Well done, <strong>${username}</strong>! Your time: ${timeString}</p>
+                        <hr style="border:0; border-top:1px solid #374151; margin:15px 0;">
+                        <h3 style="margin-top:0;">🏆 Local Hall of Fame</h3>
+                        <table style="width:100%; text-align:left; border-collapse:collapse;">
+                            ${scoreRows}
+                        </table>
+                        <p style="margin-top:20px;">Verification Code: <span style='color:#fbbf24;font-size:20px;'>MAZE-${rand(1000, 9999)}</span></p>
+                        <button onclick="location.reload()">Try Again</button>
+                    </div>`;
+                localStorage.removeItem("gauntletRoom");
+            }, 1000);
+            return;
+        }
     } else {
+        // Reset streak on wrong answer
+        streak = 0;
+        document.getElementById("streakDisplay").innerText = "";
+        
         let setback = (room >= 26) ? 5 : (room === 10 || room === 20 || room === 30) ? 6 : 3;
         room = Math.max(1, room - setback);
         document.getElementById("message").innerText = `Incorrect! Fell back ${setback} rooms.`;
