@@ -309,6 +309,9 @@ function loadQuestion(){
 }
 
 function answer(choice) {
+ if (bgMusic.paused) {
+        bgMusic.play();
+    } 
     if (choice === currentQuestion.a) {
         room++;
         streak++; // Increment streak
