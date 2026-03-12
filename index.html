@@ -26,7 +26,7 @@ margin-top:40px;
 padding:30px;
 background:#111827;
 border-radius:14px;
-box-shadow: 0 0 40px rgba(0,0,0,0.8), inset 0 0 30px rgba(0,0,0,0.6);
+box-shadow: 0 0 40px rgba(0,0,0,0.8), 0 0 20px rgba(251, 191, 36, 0.1), inset 0 0 30px rgba(0,0,0,0.6);
 border:1px solid rgba(255,255,255,0.05);
 animation: torchFlicker 6s infinite;
 transition: box-shadow 0.3s ease;
@@ -51,9 +51,36 @@ h2{ text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2); 
 @keyframes shake { 0% { transform:translateX(0); } 25% { transform:translateX(-8px); } 50% { transform:translateX(8px); } 75% { transform:translateX(-6px); } 100% { transform:translateX(0); } }
 @keyframes victoryGlow { 0% { transform:scale(1); text-shadow:0 0 10px gold; } 50% { transform:scale(1.1); text-shadow:0 0 25px gold, 0 0 40px orange; } 100% { transform:scale(1); text-shadow:0 0 10px gold; } }
 .victory{ animation:victoryGlow 1.5s ease-in-out infinite; color: gold !important; }  
+    .dungeon-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 40px;
+}
+
+.torch {
+    position: absolute;
+    width: 90px; /* Ideal size for your pixel-art gif */
+    top: 100px;  /* Adjust this to align with the top of the board */
+    z-index: 10;
+    /* Uses your existing animation for a flickering glow effect */
+    animation: torchFlicker 3s infinite alternate; 
+}
+
+.left-torch {
+    left: calc(50% - 475px); /* Positions based on half-width of gameBox + margin */
+}
+
+.right-torch {
+    right: calc(50% - 475px);
+    transform: scaleX(-1); /* Flips the gif to face inward */
+}
 </style>
 </head>
 <body>
+    <div class="dungeon-container">
+    <img src="torch.gif" class="torch left-torch">
 <div id="gameBox">
     <div id="autosave">💾 Progress Autosaved</div>
     <h2>The Microeconomics Gauntlet</h2>
@@ -70,7 +97,8 @@ h2{ text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2); 
     <div id="answers"></div>
     <p id="message"></p>
 </div>
-
+     <img src="torch.gif" class="torch right-torch">
+</div>
 <script>
 const bgMusic = new Audio('545057__szegvari__monk-chant-fantasy.wav'); 
 bgMusic.loop = true; 
