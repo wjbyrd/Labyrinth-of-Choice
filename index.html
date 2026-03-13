@@ -384,17 +384,16 @@ hard: [
 
 function shuffleOptions(question){
 
-    const correctAnswer = question.options[question.a];
+let correct = question.options[question.a]
 
-    for(let i = question.options.length - 1; i > 0; i--){
-        const j = Math.floor(Math.random() * (i + 1));
-        [question.options[i], question.options[j]] =
-        [question.options[j], question.options[i]];
-    }
+for(let i = question.options.length-1;i>0;i--){
+let j = Math.floor(Math.random()*(i+1))
+[question.options[i],question.options[j]]=[question.options[j],question.options[i]]
+}
 
-    question.a = question.options.indexOf(correctAnswer);
+question.a = question.options.indexOf(correct)
 
-    return question;
+return question
 }
     
 function rand(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
@@ -592,15 +591,17 @@ function loadQuestion() {
         gameBox.style.setProperty('--bossColor', bColor);
         questionElement.innerHTML = `<span class="boss-title" style="color:${bColor}">${bTitle}</span><div class="boss-q" style="--bossColor:${bColor}">${currentQuestion.q}</div>`;
     } else {
-    if(diff === "calculation"){
+if(diff === "calculation"){
     const generator = calculationGenerators[
         Math.floor(Math.random() * calculationGenerators.length)
     ];
-    currentQuestion = generator();
+    currentQuestion = shuffleOptions(generator());
 }
 else{
     const pool = questionBanks[diff];
-    currentQuestion = pool[Math.floor(Math.random() * pool.length)];
+    currentQuestion = shuffleOptions(
+        pool[Math.floor(Math.random() * pool.length)]
+    );
 }
         bossMsg.innerText = (room === 9 || room === 19 || room === 29) ? "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️" : "";
         bossMsg.style.color = "#ef4444";
