@@ -583,12 +583,11 @@ function loadQuestion() {
 function displayQuestion() {
     const optionsElement = document.getElementById("options");
     optionsElement.innerHTML = "";
-    
-    // Use .answers because that is what is in your questionBank arrays
-    currentQuestion.answers.forEach(option => { 
+
+    currentQuestion.options.forEach((option, index) => { 
         const btn = document.createElement("button");
         btn.innerText = option;
-        btn.onclick = () => checkAnswer(option);
+        btn.onclick = () => checkAnswer(index);
         optionsElement.appendChild(btn);
     });
 }
