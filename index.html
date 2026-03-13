@@ -434,6 +434,7 @@ let q = {
     a: question.a,
     feedback: question.feedback,
     hint: question.hint
+    tag: question.tag
 };
 
 let correct = q.options[q.a];
@@ -744,7 +745,7 @@ function answer(choice) {
     } else {
         streak = 0;
         // If question has a concept tag, trigger a reinforcement detour
-        if(!detourActive && currentQuestion.tag && easyConceptPools[currentQuestion.tag]){
+        if(!detourActive && currentQuestion.tag && easyConceptPools[currentQuestion.tag]?.length){
 
         detourActive = true;
         detourReturnRoom = room;
