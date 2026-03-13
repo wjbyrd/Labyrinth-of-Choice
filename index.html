@@ -59,6 +59,18 @@ h2{ text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2); 
     padding-top: 40px;
 }
 
+.fade-out-text {
+    animation: fadeOut 5s forwards;
+    font-weight: bold;
+    color: #4ade80; /* A nice success green */
+}
+
+@keyframes fadeOut {
+    0% { opacity: 1; }
+    70% { opacity: 1; } /* Stay fully visible for 3.5 seconds */
+    100% { opacity: 0; } /* Fade out over the last 1.5 seconds */
+}
+  
 #question {
     font-size: 20px; /* Increased from your current size */
     line-height: 1.4;
@@ -540,12 +552,12 @@ function loadQuestion(){
 
 function answer(choice) {
     totalAttempts++;
+    const msgElement = document.getElementById("message");
     if (bgMusic.paused) {
         bgMusic.play();
     } 
     if (choice === currentQuestion.a) {
         correctAnswers++;
-        room++;
         streak++;
         if (streak > maxStreak) maxStreak = streak;
         
@@ -583,6 +595,21 @@ function answer(choice) {
 
         document.getElementById("message").innerText = "Correct!";
 
+      // Apply Fade-Out Feedback
+        msgElement.innerText = `Correct! ${currentQuestion.feedback || ""}`;
+        msgElement.className = "fade-out-text";
+        
+        // Remove and re-add class to restart animation for consecutive correct answers
+        msgElement.style.animation = 'none';
+        msgElement.offsetHeight; 
+        msgElement.style.animation = null;
+
+        // Check if this was a Boss Room (10, 20, 30)
+        if (room === 10 || room === 20 || room === 30) {
+            showThematicFeedback(room);
+            return; // Stop here; showThematicFeedback will handle the next room
+        }
+        room++;
         if (room > 30) {
             bgMusic.pause();
             document.getElementById("mazeTrack").classList.add("victory");
