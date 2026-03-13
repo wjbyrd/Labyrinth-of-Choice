@@ -172,6 +172,8 @@ justify-content: center;
 align-items: center;
 text-align: center;
 }
+
+
 </style>
 </head>
 <body>
@@ -672,6 +674,28 @@ function answer(choice) {
     loadQuestion();
 }
 
+  function showThematicFeedback(bossRoom) {
+    let title = "";
+    let message = "";
+
+    if (bossRoom === 10) {
+        title = "MASTER OF THE ARCHIVES";
+        message = "You have mastered the Fundamentals of Choice. You understand that rational actors maximize utility by balancing marginal gains against costs. The Labyrinth grows deeper...";
+    } else if (bossRoom === 20) {
+        title = "DECODER OF SUBSTITUTIONS";
+        message = "You have conquered the dual nature of price changes. You now distinguish between how price changes affect purchasing power (Income Effect) and relative attractiveness (Substitution Effect).";
+    } else if (bossRoom === 30) {
+        title = "SOVEREIGN OF ELASTICITY";
+        message = "The final seal is broken. You have proven your mastery over Market Responsiveness and the mathematical laws that govern Total Revenue.";
+    }
+
+    // Using an alert for the "Old School" dungeon feel, or you can use a custom modal
+    alert(`🏆 ${title} 🏆\n\n${message}`);
+    
+    room++;
+    loadQuestion();
+}
+  
 function shuffleArray(arr){
     for(let i=arr.length-1;i>0;i--){ let j=Math.floor(Math.random()*(i+1)); [arr[i],arr[j]]=[arr[j],arr[i]]; }
     return arr;
