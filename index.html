@@ -572,7 +572,7 @@ function loadQuestion() {
         
         bossMsg.innerText = (room === 9 || room === 19 || room === 29) ? "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️" : "";
         bossMsg.style.color = "#ef4444";
-        questionElement.innerText = `Room ${room}: ` + currentQuestion.q;
+        questionElement.innerText = currentQuestion.q;
     }
 
     // 4. Update Hints and Draw Buttons
@@ -587,7 +587,7 @@ function displayQuestion() {
     currentQuestion.options.forEach((option, index) => { 
         const btn = document.createElement("button");
         btn.innerText = option;
-        btn.onclick = () => checkAnswer(index);
+        btn.onclick = () => answer(index);
         optionsElement.appendChild(btn);
     });
 }
