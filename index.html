@@ -248,6 +248,16 @@ function startGame() {
     
     username = inputName;
     localStorage.setItem("gauntletUser", username);
+
+    // RESET GAME STATE
+    room = 1;
+    bossHealth = 3;
+    streak = 0;
+    bestStreak = 0;
+    totalQuestions = 0;
+    bossPool = [];
+    calcBag = [];
+    localStorage.removeItem("gauntletRoom");
     
     // Reveal the game and torches
     document.getElementById("startScreen").style.display = "none";
