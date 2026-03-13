@@ -586,6 +586,26 @@ function loadQuestion() {
     displayQuestion(); // This handles the shuffling and button generation
 }
 
+function displayQuestion() {
+    const choicesElement = document.getElementById("choices");
+    choicesElement.innerHTML = ""; // Clear old buttons
+
+    // Create a mapped array of options so we can track the original index after shuffling
+    let optionsMapped = currentQuestion.options.map((opt, index) => {
+        return { text: opt, originalIndex: index };
+    });
+
+    // Shuffle them so the correct answer isn't always in the same spot
+    optionsMapped = shuffleArray(optionsMapped);
+
+    optionsMapped.forEach(option => {
+        const btn = document.createElement("button");
+        btn.innerText = option.text;
+        // We pass the originalIndex so the answer() function knows if it's correct
+        btn.onclick = () => answer(option.originalIndex);
+        choicesElement.appendChild(btn);
+    });
+}
 function answer(choice) {
     totalAttempts++;
     const msgElement = document.getElementById("message");
