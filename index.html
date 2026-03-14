@@ -20,7 +20,7 @@ font-family: Arial, sans-serif;
     
     background-size: cover;
     background-position: center;
-    background-attachment: fixed; /* Keeps the image from scrolling with the page */
+    background-attachment: scroll; /* Keeps the image from scrolling with the page */
     color: white;
     text-align: center;
     min-height:100vh;
@@ -237,9 +237,9 @@ flex:1 1 100%;
 </div>
     <div class="dungeon-container">
     <img src="torch.gif" class="torch left-torch">
+    <button class="fullscreenBtn" onclick="goFullscreen()">Fullscreen</button>
 <div id="gameBox">
     <div id="autosave">💾 Progress Autosaved</div>
-    <button class="fullscreenBtn" onclick="goFullscreen()">Fullscreen</button>
     <h2>The Labyrinth of Choice</h2>
     <p id="areaDisplay" class="area-title"></p>
     <div id="progressBar"><div id="progressFill"></div></div>
@@ -264,7 +264,17 @@ const sfxMilestone = new Audio('387232__steaq__badge-coin-win.wav');
 const sfxVictory = new Audio('220184__gameaudio__win-spacey.wav');
 
 function goFullscreen(){
-document.documentElement.requestFullscreen();
+let el = document.documentElement;
+
+if (el.requestFullscreen) {
+    el.requestFullscreen();
+} 
+else if (el.webkitRequestFullscreen) { // Safari
+    el.webkitRequestFullscreen();
+} 
+else if (el.msRequestFullscreen) { // old Edge
+    el.msRequestFullscreen();
+}
 }
     
 // 1. Initial UI State: Hide game until startGame runs
