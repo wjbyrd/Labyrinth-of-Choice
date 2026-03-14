@@ -664,28 +664,44 @@ function getElasticityCalc() {
     const elasticityVal = Math.abs((chgQ / midQ) / (chgP / midP));
     const elasticity = elasticityVal.toFixed(2);
 
-    // Classification
-    let label;
-    if (elasticityVal > 1) label = "Elastic";
-    else if (elasticityVal < 1) label = "Inelastic";
-    else label = "Unit Elastic";
+    // helper classifier
+    function classify(val){
+        if (val > 1) return "Elastic";
+        if (val < 1) return "Inelastic";
+        return "Unit Elastic";
+    }
 
-    const correct = `${elasticity} (${label})`;
+    const correct = `${elasticity} (${classify(elasticityVal)})`;
 
-    const d1 = (elasticityVal * 0.7).toFixed(2);
-    const d2 = (elasticityVal * 1.3).toFixed(2);
-    const d3 = Math.abs((chgQ / q1) / (chgP / p1)).toFixed(2);
+    const d1Val = elasticityVal * 0.7;
+    const d2Val = elasticityVal * 1.3;
+    const d3Val = Math.abs((chgQ / q1) / (chgP / p1));
+
+    const d1 = `${d1Val.toFixed(2)} (${classify(d1Val)})`;
+    const d2 = `${d2Val.toFixed(2)} (${classify(d2Val)})`;
+    const d3 = `${d3Val.toFixed(2)} (${classify(d3Val)})`;
 
     let options = new Set();
     options.add(correct);
-    options.add(`${d1} (${label})`);
-    options.add(`${d2} (${label})`);
-    options.add(`${d3} (${label})`);
+    options.add(d1);
+    options.add(d2);
+    options.add(d3);
 
     while (options.size < 4) {
-        const filler = (Math.random() * 2 + 0.5).toFixed(2);
-        options.add(`${filler} (${label})`);
+        const fillerVal = Math.random() * 2 + 0.5;
+        options.add(`${fillerVal.toFixed(2)} (${classify(fillerVal)})`);
     }
+
+    options = Array.from(options);
+
+    return {
+        q: `When the price of a good increases from $${p1} to $${p2}, the quantity demanded decreases from ${q1} units to ${q2} units. Using the Midpoint (Arc) Method, what is the price elasticity of demand?`,
+        options: options,
+        a: options.indexOf(correct),
+        hint: "Arc Elasticity = [(Q2-Q1)/((Q1+Q2)/2)] / [(P2-P1)/((P1+P2)/2)]",
+        feedback: `Elasticity ≈ ${elasticity}. Demand is ${classify(elasticityVal)}.`
+    };
+}
 
     options = Array.from(options);
 
