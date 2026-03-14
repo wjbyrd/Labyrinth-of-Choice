@@ -525,7 +525,7 @@ medium: [
 {q:"The substitution effect of a price change occurs because...",options:["Relative prices change","Income changes","Preferences change","Demand shifts"],a:0,tag:"income_substitution",type:"definition",feedback:"The substitution effect isolates the impact of relative price changes."},
 {q:"A normal good is defined as one where...",options:["Demand rises as income rises","Demand falls as income rises","Demand stays constant","Price always rises"],a:0,tag:"normal_inferior",type:"definition",feedback:"Normal goods experience increased demand as income increases."},
 {q:"An inferior good is defined as one where...",options:["Demand falls as income rises","Demand rises as income rises","Demand is perfectly elastic","Demand disappears"],a:0,tag:"normal_inferior",type:"definition",feedback:"Inferior goods are consumed less when income increases."},
-{q:"Price elasticity of demand measures...",options:["Responsiveness of quantity demanded to price changes","Total consumer spending","Production efficiency","Market supply"],a:0,tag:"elasticity",type:"definition",feedback:"Elasticity measures how sensitive quantity demanded is to price changes."}
+{q:"Price elasticity of demand measures...",options:["Responsiveness of quantity demanded to price changes","Total consumer spending","Production efficiency","Market supply"],a:0,tag:"elasticity",type:"definition",feedback:"Elasticity measures how sensitive quantity demanded is to price changes."},
 {q:"A price decrease causes quantity demanded to rise substantially. What does this suggest about elasticity?",options:["Demand is elastic","Demand is inelastic","Demand is perfectly inelastic","Demand is unit elastic"],a:0,tag:"elasticity",type:"interpretation",feedback:"Large quantity responses indicate elastic demand."},
 {q:"If the substitution effect increases consumption but the income effect decreases it, the good must be...",options:["Inferior","Normal","Perfect substitute","Perfect complement"],a:0,tag:"income_substitution",type:"interpretation",feedback:"For inferior goods the income effect works opposite the substitution effect."},
 {q:"If MRS is greater than the price ratio, what should the consumer do?",options:["Consume more of good X","Consume less of good X","Increase income","Reduce utility"],a:0,tag:"consumer_equilibrium",type:"interpretation",feedback:"If MRS exceeds the price ratio, the consumer gains more utility per dollar from X."},
@@ -657,12 +657,6 @@ easyCycle = (easyCycle + 1) % 3
 
 let pool = questionBanks.easy.filter(q => q.type === type)
 
-let pool
-
-if(type === "definition") pool = mediumDefinitions
-if(type === "interpretation") pool = mediumInterpretations
-if(type === "trap") pool = mediumTraps
-
 currentQuestion = shuffleOptions(pickRandom(pool))
 
 return pickRandom(pool)
@@ -789,8 +783,7 @@ function getElasticityCalc() {
         feedback: `Elasticity ≈ ${elasticity}. Demand is ${classify(elasticityVal)}.`
     };
 
-    options = Array.from(options);
-}
+    }
   
 function getConsumerSurplusCalc() {
     const wtp = Math.floor(Math.random() * 20) + 40; // Higher WTP to ensure positive surplus
@@ -991,11 +984,10 @@ playExplorationMusic();
         questionElement.innerHTML = `<span class="boss-title" style="color:${bColor}">${bTitle}</span><div class="boss-q" style="--bossColor:${bColor}">${currentQuestion.q}</div>`;
     } else {
 if(diff === "calculation"){
-const generator = pickCalcGenerator();
-currentQuestion = shuffleOptions(generator());
+    const generator = pickCalcGenerator();
+    currentQuestion = shuffleOptions(generator());
 }
-else{
-if(diff === "easy"){
+else if(diff === "easy"){
     currentQuestion = shuffleOptions(randomEasy());
 }
 else if(diff === "medium"){
