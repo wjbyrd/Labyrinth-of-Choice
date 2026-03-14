@@ -165,8 +165,8 @@ max-width:320px;
     animation: torchFlicker 3s infinite alternate;
 }
 
-.left-torch { left: calc(50% - 475px); }
-.right-torch { right: calc(50% - 475px); transform: scaleX(-1); }
+.left-torch { left: max(10px, calc(50% - 475px)); }
+.right-torch { right: max(10px, calc(50% - 475px)); }
 
 .fullscreenBtn{
 position:absolute;
@@ -286,6 +286,12 @@ let currentQuestion = null;
 let detourActive = false;
 let detourReturnRoom = null;
 
+// Restore saved username if it exists
+const savedUser = localStorage.getItem("gauntletUser");
+if(savedUser){
+document.getElementById("usernameInput").value = savedUser;
+}
+
 // 3. Entry Logic
 function startGame() {
     let inputName = document.getElementById("usernameInput").value.trim();
@@ -301,8 +307,9 @@ function startGame() {
     room = 1;
     bossHealth = 3;
     streak = 0;
-    bestStreak = 0;
-    totalQuestions = 0;
+    maxStreak = 0;
+    totalAttempts = 0;
+    correctAnswers = 0;
     bossPool = [];
     calcBag = [];
     localStorage.removeItem("gauntletRoom");
@@ -807,7 +814,7 @@ function answer(choice) {
             if (bossHealth > 0) {
                 sfxMilestone.play(); 
                 msgElement.innerHTML = `<span class='fade-out-text' style='color:#f87171;'>HIT! Boss Health: ${bossHealth}/3</span>`;
-                loadQuestion(); // Refresh to next boss question
+                setTimeout(loadQuestion, 800); // Refresh to next boss question
                 return; 
             } else {
                 showKnowledgeRoom(room);
@@ -988,7 +995,7 @@ function formatTime(ms) {
 function copyResults() {
     const totalTimeMs = Date.now() - startTime;
     const timeString = formatTime(totalTimeMs);
-    const code = document.querySelector('.victory + div span').innerText;
+    const code = document.getElementById("vCode").innerText;
     const accuracy = Math.round((correctAnswers / totalAttempts) * 100);
     const shareText = `🎮 Labyrinth of Choice Conquered!\n👤 Adventurer: ${username}\n⏱️ Time: ${timeString}\n🎯 Accuracy: ${accuracy}%\n🔥 Best Streak: ${maxStreak}\n📝 Total Questions: ${totalAttempts}\n🔑 Verification Code: ${code}`;
     
