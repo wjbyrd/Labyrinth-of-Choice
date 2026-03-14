@@ -176,6 +176,19 @@ max-width:320px;
 .left-torch { left: calc(50% - 475px); }
 .right-torch { right: calc(50% - 475px); transform: scaleX(-1); }
 
+.fullscreenBtn{
+position:absolute;
+top:12px;
+left:12px;
+background:#374151;
+color:white;
+border:none;
+padding:6px 10px;
+border-radius:6px;
+cursor:pointer;
+font-size:12px;
+}
+    
 #startScreen {
 position: fixed;
 top: 0;
@@ -225,11 +238,12 @@ flex:1 1 100%;
     <img src="torch.gif" class="torch left-torch">
 <div id="gameBox">
     <div id="autosave">💾 Progress Autosaved</div>
+    <button class="fullscreenBtn" onclick="goFullscreen()">Fullscreen</button>
     <h2>The Labyrinth of Choice</h2>
     <p id="areaDisplay" class="area-title"></p>
     <div id="progressBar"><div id="progressFill"></div></div>
     <div id="mazeTrack"></div>
-     <div id="streakDisplay" style="font-weight:bold; color:#60a5fa; height:24px; margin-top:5px;"></div>
+    <div id="streakDisplay" style="font-weight:bold; color:#60a5fa; height:24px; margin-top:5px;"></div>
     <p id="bossMessage"></p>
     <div id="questionContainer">
         <p id="question"></p>
@@ -248,6 +262,10 @@ bgMusic.volume = 0.1;
 const sfxMilestone = new Audio('387232__steaq__badge-coin-win.wav');
 const sfxVictory = new Audio('220184__gameaudio__win-spacey.wav');
 
+function goFullscreen(){
+document.getElementById("gameBox").requestFullscreen();
+}
+    
 // 1. Initial UI State: Hide game until startGame runs
 document.getElementById("gameBox").style.display = "none";
 document.querySelectorAll(".torch").forEach(t => t.style.display = "none");
