@@ -165,8 +165,9 @@ max-width:320px;
     animation: torchFlicker 3s infinite alternate;
 }
 
-.left-torch { left: max(10px, calc(50% - 475px)); }
-.right-torch { right: max(10px, calc(50% - 475px)); }
+.left-torch { left: max(10px, calc(50% - 410px)); }
+.right-torch { right: max(10px, calc(50% - 410px)); 
+             transform: scaleX(-1);}
 
 .fullscreenBtn{
 position:absolute;
@@ -813,8 +814,8 @@ function answer(choice) {
             bossHealth--;
             if (bossHealth > 0) {
                 sfxMilestone.play(); 
-                msgElement.innerHTML = `<span class='fade-out-text' style='color:#f87171;'>HIT! Boss Health: ${bossHealth}/3</span>`;
-                setTimeout(loadQuestion, 800); // Refresh to next boss question
+                msgElement.innerHTML = `<span style='color:#f87171;font-weight:bold;'>⚔ HIT! Boss Health: ${bossHealth}/3</span>`;
+                setTimeout(loadQuestion, 1800); // Refresh to next boss question
                 return; 
             } else {
                 showKnowledgeRoom(room);
