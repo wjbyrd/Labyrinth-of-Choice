@@ -1053,13 +1053,13 @@ loadQuestion();
 }
   
 function triggerBossShake(){
-  const box = document.getElementById("gameBox");
-
-  box.classList.add("boss-shake");
-
-  setTimeout(()=>{
-  box.classList.remove("boss-shake");
-  },600);
+const box = document.getElementById("gameBox");
+box.classList.remove("boss-shake");
+void box.offsetWidth; // forces browser reflow
+box.classList.add("boss-shake");
+setTimeout(()=>{
+box.classList.remove("boss-shake");
+},600);
 
 }
   
