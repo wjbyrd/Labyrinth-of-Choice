@@ -154,8 +154,8 @@ max-width:320px;
 }
   
 /* Gives a faint, constant aura to the boss rooms */
-.maze-box:nth-child(10) { text-shadow: 0 0 5px #fbbf24; }
-.maze-box:nth-child(20) { text-shadow: 0 0 10px #a855f7; }
+.maze-box:nth-child(10) { text-shadow: 0 0 10px #60a5fa; }
+.maze-box:nth-child(20) { text-shadow: 0 0 12px #a855f7; }
 .maze-box:nth-child(30) { text-shadow: 0 0 15px #ef4444; }
   
 #gameBox.boss-mode {
@@ -1088,8 +1088,8 @@ function updateMazeTrack() {
             box.innerText = "🟥";
         } else {
             // Boss icons for future rooms
-            if (i === 10){box.innerText = "🧿";box.classList.add("boss10");}
-            else if (i === 20){box.innerText = "⚡";box.classList.add("boss20");}
+            if (i === 10){box.innerText = "🛡️";box.classList.add("boss10");}
+            else if (i === 20){box.innerText = "💀";box.classList.add("boss20");}
             else if (i === 30){box.innerText = "👑";box.classList.add("boss30");}
             else box.innerText = "⬛";
         }
