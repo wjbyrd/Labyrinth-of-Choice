@@ -294,6 +294,47 @@ margin-bottom:8px;
 #artifactDrop img{
 filter: drop-shadow(0 0 12px rgba(56,189,248,.8));
 }
+
+#artifactVault{
+margin-top:25px;
+padding:15px;
+border-radius:10px;
+background:#020617;
+border:1px solid rgba(56,189,248,.25);
+text-align:center;
+}
+
+#artifactVault h3{
+color:#60a5fa;
+margin-bottom:10px;
+}
+
+.artifactSlot{
+display:inline-block;
+width:110px;
+margin:0 10px;
+opacity:.25;
+}
+
+.artifactSlot img{
+width:64px;
+filter:grayscale(1);
+}
+
+.artifactSlot span{
+display:block;
+font-size:12px;
+color:#94a3b8;
+margin-top:6px;
+}
+
+.artifactSlot img{
+transition:all .4s ease;
+}
+
+.artifactSlot img.unlocked{
+filter:drop-shadow(0 0 10px #38bdf8);
+}
   
 </style>
 </head>
@@ -336,6 +377,24 @@ filter: drop-shadow(0 0 12px rgba(56,189,248,.8));
     <h3 id="artifactTitle"></h3>
     <p id="artifactText"></p>
 </div>
+</div>
+      <div id="artifactVault">
+    <h3>Relics Recovered</h3>
+
+    <div class="artifactSlot">
+        <img id="vaultSeal" src="seal_of_preferences.png">
+        <span>Seal of Preferences</span>
+    </div>
+
+    <div class="artifactSlot">
+        <img id="vaultPrism" src="prism_of_tradeoffs.png">
+        <span>Prism of Tradeoffs</span>
+    </div>
+
+    <div class="artifactSlot">
+        <img id="vaultScepter" src="scepter_of_elasticity.png">
+        <span>Scepter of Elasticity</span>
+    </div>
 </div>
     </div>
 <script>
@@ -472,12 +531,27 @@ function startGame() {
     bossPool = [];
     calcBag = [];
     localStorage.removeItem("gauntletRoom");
+    localStorage.removeItem("vaultSeal");
+    localStorage.removeItem("vaultPrism");
+    localStorage.removeItem("vaultScepter");
     
     // Reveal the game and torches
     document.getElementById("startScreen").style.display = "none";
     document.getElementById("gameBox").style.display = "block";
     document.querySelectorAll(".torch").forEach(t => t.style.display = "block");
-    
+
+  if(localStorage.getItem("vaultSeal")){
+        document.getElementById("vaultSeal").classList.add("unlocked");
+    }
+
+    if(localStorage.getItem("vaultPrism")){
+        document.getElementById("vaultPrism").classList.add("unlocked");
+    }
+
+    if(localStorage.getItem("vaultScepter")){
+        document.getElementById("vaultScepter").classList.add("unlocked");
+    }
+  
     // Start atmosphere and timer
     bgMusic.play().catch(e => console.log("Audio started"));
     startTime = Date.now(); 
@@ -1120,7 +1194,9 @@ function answer(choice) {
             } else {
 
     if(room === 10){
-        showArtifact(
+      document.getElementById("vaultSeal").classList.add("unlocked");
+      localStorage.setItem("vaultSeal", "true");
+      showArtifact(
             artifacts.seal.img,
             artifacts.seal.title,
             artifacts.seal.text
@@ -1128,7 +1204,9 @@ function answer(choice) {
     }
 
     if(room === 20){
-        showArtifact(
+      document.getElementById("vaultPrism").classList.add("unlocked");
+      localStorage.setItem("vaultPrism", "true");
+      showArtifact(
             artifacts.prism.img,
             artifacts.prism.title,
             artifacts.prism.text
@@ -1136,7 +1214,9 @@ function answer(choice) {
     }
 
     if(room === 30){
-        showArtifact(
+       document.getElementById("vaultScepter").classList.add("unlocked");
+      localStorage.setItem("vaultScepter", "true");
+      showArtifact(
             artifacts.scepter.img,
             artifacts.scepter.title,
             artifacts.scepter.text
