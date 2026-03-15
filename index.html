@@ -9,10 +9,12 @@ font-family:Arial,sans-serif;
 margin:0;
 padding:0;
 min-height:100vh;
+
 display:flex;
-flex-direction:column;
-align-items:center;
-color: white;
+justify-content:center;
+align-items:flex-start;
+
+color:white;
 
 background:
 linear-gradient(rgba(2,6,23,.8),rgba(2,6,23,.8)),
@@ -33,7 +35,7 @@ background-attachment:scroll;
 max-width:720px;
 width:90%;
 min-height:75vh;
-margin:20px auto;
+margin:0;
 padding:26px;
 text-align:center;
 background:#111827;
@@ -64,15 +66,18 @@ h2{ text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2); 
 @keyframes shake { 0% { transform:translateX(0); } 25% { transform:translateX(-8px); } 50% { transform:translateX(8px); } 75% { transform:translateX(-6px); } 100% { transform:translateX(0); } }
 @keyframes victoryGlow { 0% { transform:scale(1); text-shadow:0 0 10px gold; } 50% { transform:scale(1.1); text-shadow:0 0 25px gold, 0 0 40px orange; } 100% { transform:scale(1); text-shadow:0 0 10px gold; } }
 .victory{ animation:victoryGlow 1.5s ease-in-out infinite; color: gold !important; }  
-  .dungeon-container {
-    position: relative;
-    display: flex;
-    gap:40px;
-    justify-content: center;
-    align-items: flex-start;
-    padding-top: 40px;
-}
+.dungeon-container{
+position:relative;
+display:flex;
+justify-content:center;
+align-items:flex-start;
+gap:40px;
 
+width:100%;
+max-width:1100px;
+
+margin-top:40px;
+}
 .fade-out-text {
     animation: fadeOut 5s forwards;
     font-weight: bold;
