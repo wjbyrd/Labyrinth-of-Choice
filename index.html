@@ -276,6 +276,20 @@ transform: scale(1);
 transform: scale(1.08);
 }
 }
+
+#artifactDrop{
+margin-top:20px;
+padding:14px;
+background:rgba(15,23,42,.6);
+border-radius:10px;
+border:1px solid rgba(99,102,241,.35);
+text-align:center;
+}
+
+#artifactImage{
+width:96px;
+margin-bottom:8px;
+}
   
 </style>
 </head>
@@ -312,13 +326,14 @@ transform: scale(1.08);
     </div>
     <div id="answers"></div>
     <p id="message" aria-live="polite"></p>
-</div>
-     <img src="torch.gif" class="torch right-torch">
-</div>
-  <div id="artifactDrop" style="display:none;text-align:center;margin-top:20px;">
+    <div id="artifactDrop" style="display:none;text-align:center;margin-top:20px;">
     <img id="artifactImage" width="96">
     <h3 id="artifactTitle"></h3>
     <p id="artifactText"></p>
+</div>
+     <img src="torch.gif" class="torch right-torch">
+</div>
+
 </div>
 <script>
 const bgMusic = new Audio('545057__szegvari__monk-chant-fantasy.wav'); 
@@ -1077,7 +1092,7 @@ function answer(choice) {
         return;
     }
 
-      if(room === 10){
+      if(room === 10 && bossPhase === 2)){
         showArtifact(
         artifacts.seal.img,
         artifacts.seal.title,
@@ -1085,7 +1100,7 @@ function answer(choice) {
         );
     }
 
-        if(room === 20){
+        if(room === 20 && bossPhase === 2)){
         showArtifact(
         artifacts.prism.img,
         artifacts.prism.title,
@@ -1093,7 +1108,7 @@ function answer(choice) {
         );
     }
 
-      if(room === 30){
+      if(room === 30 && bossPhase === 2)){
       showArtifact(
       artifacts.scepter.img,
       artifacts.scepter.title,
