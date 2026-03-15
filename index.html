@@ -161,7 +161,7 @@ max-width:320px;
 .torch{
 position:absolute;
 width:70px;
-top:95px;
+top:55px;
 z-index:10;
 animation: torchFlicker 3s infinite alternate;
 pointer-events:none;
@@ -170,11 +170,11 @@ filter: drop-shadow(0 0 12px rgba(255,180,80,.7));
 }
 
 .left-torch{
-left:12px;
+left:18px;
 }
 
 .right-torch{
-right:12px;
+right:18px;
 transform:scaleX(-1);
 }
   
@@ -309,10 +309,10 @@ margin-top:60px;
 width:260px;
 padding:18px;
 border-radius:12px;
-background:#020617;
+background:linear-gradient(180deg,#020617,#020617 60%,#020617 100%);
+box-shadow:0 0 25px rgba(56,189,248,.15);
 border:1px solid rgba(56,189,248,.25);
 text-align:center;
-box-shadow:0 0 25px rgba(0,0,0,.6);
 }
 
 #artifactVault h3{
@@ -402,18 +402,18 @@ font-weight:600;
       <div id="artifactVault">
     <h3>Relics Recovered</h3>
 
-    <div class="artifactSlot">
-        <img id="vaultSeal" src="seal_of_preferences.png">
+    <div id="vaultSeal" class="artifactSlot">
+        <img src="seal_of_preferences.png">
         <span>Seal of Preferences</span>
     </div>
 
-    <div class="artifactSlot">
-        <img id="vaultPrism" src="prism_of_tradeoffs.png">
+    <div id="vaultPrism" class="artifactSlot">
+        <img src="prism_of_tradeoffs.png">
         <span>Prism of Tradeoffs</span>
     </div>
 
-    <div class="artifactSlot">
-        <img id="vaultScepter" src="scepter_of_elasticity.png">
+    <div id="vaultScepter" class="artifactSlot">
+        <img src="scepter_of_elasticity.png">
         <span>Scepter of Elasticity</span>
     </div>
 </div>
