@@ -368,6 +368,36 @@ color:#e2e8f0;
 font-weight:600;
 }
 
+/* Boss Images */
+
+.bossIcon{
+width:96px;
+height:auto;
+display:block;
+margin:0 auto 12px auto;
+animation:bossFloat 4s ease-in-out infinite;
+}
+
+.wardenGlow{
+filter:drop-shadow(0 0 14px rgba(96,165,250,.8));
+}
+
+.decomposerGlow{
+filter:drop-shadow(0 0 14px rgba(168,85,247,.8));
+}
+
+.finalBoss{
+filter:drop-shadow(0 0 18px rgba(239,68,68,.9));
+}
+
+/* Floating animation */
+
+@keyframes bossFloat{
+0%{transform:translateY(0);}
+50%{transform:translateY(-6px);}
+100%{transform:translateY(0);}
+}
+
 </style>
 </head>
 <body>
@@ -1150,7 +1180,28 @@ playExplorationMusic();
         bossMsg.innerText = "⚠ BOSS ENCOUNTER ⚠";
         bossMsg.style.color = bColor;
         gameBox.style.setProperty('--bossColor', bColor);
-        questionElement.innerHTML = `<span class="boss-title" style="color:${bColor}">${bTitle}</span><div class="boss-q" style="--bossColor:${bColor}">${currentQuestion.q}</div>`;
+        let bossImage = "";
+let bossClass = "";
+
+if(room === 10){
+bossImage = "warden.png";
+bossClass = "wardenGlow";
+}
+else if(room === 20){
+bossImage = "decomposer.png";
+bossClass = "decomposerGlow";
+}
+else{
+bossImage = "sovereign.png";
+bossClass = "finalBoss";
+}
+
+questionElement.innerHTML =
+`<img src="${bossImage}" class="bossIcon ${bossClass}">
+<span class="boss-title" style="color:${bColor}">${bTitle}</span>
+<div class="boss-q" style="--bossColor:${bColor}">
+${currentQuestion.q}
+</div>`;
 } else {
     if(diff === "calculation"){
         const generator = pickCalcGenerator();
