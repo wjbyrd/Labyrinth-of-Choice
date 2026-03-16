@@ -854,7 +854,19 @@ definition: questionBanks.medium.filter(q => q.type === "definition"),
 interpretation: questionBanks.medium.filter(q => q.type === "interpretation"),
 trap: questionBanks.medium.filter(q => q.type === "trap")
 };
-  
+
+let easyIndex = {
+definition:0,
+interpretation:0,
+trap:0
+};
+
+let mediumIndex = {
+definition:0,
+interpretation:0,
+trap:0
+};
+    
 function randomEasy(){
 
 let type;
