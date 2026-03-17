@@ -182,20 +182,18 @@ left:18px;
 right:18px;
 transform:scaleX(-1);
 }
-  
+
+.boss-shake {
+    animation: bossShake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+}
+
 @keyframes bossShake {
-0% { transform: translate(0,0); }
-20% { transform: translate(-20px,14px); }
-40% { transform: translate(20px,-14px); }
-60% { transform: translate(-18px,-16px); }
-80% { transform: translate(18px,16px); }
-100% { transform: translate(0,0); }
+    10%, 90% { transform: translate3d(-1px, 0, 0); }
+    20%, 80% { transform: translate3d(2px, 0, 0); }
+    30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+    40%, 60% { transform: translate3d(4px, 0, 0); }
 }
-
-.boss-shake{
-animation: bossShake 0.6s ease;
-}
-
+    
 .fullscreenBtn{
 position:absolute;
 top:12px;
@@ -476,6 +474,7 @@ bossMusic.volume = 0.10;
   
 const sfxMilestone = new Audio('streak.wav');
 const sfxVictory = new Audio('victory.wav');
+const sfxBossHit = new Audio('boss_hit.wav');
 
 function playBossMusic(){
 
@@ -1382,12 +1381,15 @@ function answer(choice) {
         if (streak > maxStreak) maxStreak = streak;
         handleStreakVisuals();
 
+         // --- BOSS HIT LOGIC ---
         if (room === 10 || room === 20 || room === 30) {
-            bossHealth--;
-            if (bossHealth > 0) {
-                sfxMilestone.play(); 
+                 sfxBossHit.pause();
+                sfxBossHit.currentTime = 0;
+                sfxBossHit.play();
                 msgElement.innerHTML = `<span style='color:#f87171;font-weight:bold;'>⚔ HIT! Boss Health: ${bossHealth}/3</span>`;
-                setTimeout(loadQuestion, 1800); // Refresh to next boss question
+                // CALL THE SHAKE FUNCTION HERE
+                triggerBossShake();
+                setTimeout(loadQuestion, 900); // Refresh to next boss question
                 return; 
             } else {
 
@@ -1547,16 +1549,23 @@ drop.style.display = "block";
 
 }
 
-function triggerBossShake(){
-const box = document.getElementById("gameBox");
-box.classList.remove("boss-shake");
-void box.offsetWidth; // forces browser reflow
-box.classList.add("boss-shake");
-setTimeout(()=>{
-box.classList.remove("boss-shake");
-},600);
+function triggerBossShake() {
+    const icon = document.querySelector(".bossIcon");
+    const box = document.getElementById("gameBox");
 
+    // Shake the world
+    box.classList.remove("boss-shake");
+    void box.offsetWidth;
+    box.classList.add("boss-shake");
+
+    // Shake the boss (if it exists)
+    if (icon) {
+        icon.classList.remove("boss-shake");
+        void icon.offsetWidth;
+        icon.classList.add("boss-shake");
+    }
 }
+  
   
 function handleVictory() {
     bgMusic.pause();
