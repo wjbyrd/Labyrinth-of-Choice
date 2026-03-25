@@ -248,10 +248,12 @@ button:active {transform: scale(0.96);}
     border-radius:12px;
     padding:10px;
     display:flex;
-    justify-content:center;
+    flex-direction: column;
+    justify-content:flex-start;   
+    align-items:center;
+    padding-top:14px;             
     flex:0 0 180px;
     flex-shrink: 0;
-    align-items:center;
     margin-bottom: 0px;
     border:1px solid rgba(255,255,255,0.08);
 }
@@ -262,7 +264,7 @@ button:active {transform: scale(0.96);}
     letter-spacing: 1px;
     text-transform: uppercase;
     color: #93c5fd; /* soft arcane blue */
-    margin-bottom: 4px;
+    margin-bottom: 6px;
     opacity: 0.85;
     text-align: center;
     font-weight: 600;
