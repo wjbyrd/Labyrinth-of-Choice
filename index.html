@@ -541,14 +541,46 @@ function getAreaName(r) {
 // WIZARD DIALOGUE SYSTEM
 // Lines used during transitions
 // =============================
-const wizardLines = [
-"The path reveals itself to those who think clearly.",
-"You see it now… the logic unfolds.",
-"Good. You’re beginning to understand.",
-"The labyrinth yields to disciplined thought.",
-"Yes… that was no accident. Press on."
-];
-  
+const wizardLines = {
+    definition: [
+        "Define it. No guessing.",
+        "State the concept clearly.",
+        "What does this mean?",
+        "Precision matters here."
+    ],
+    interpretation: [
+        "What is this telling you?",
+        "Look deeper.",
+        "Interpret the situation.",
+        "What insight do you see?"
+    ],
+    trap: [
+        "Careful. Many fall here.",
+        "This is where mistakes are made.",
+        "Do not answer too quickly.",
+        "Look closely before you choose.",
+        "This will test your attention.",
+        "One detail changes everything."
+    ],
+    calculation: [
+        "Work it out.",
+        "Numbers don’t lie.",
+        "Solve it carefully.",
+        "Precision wins here."
+    ],
+    default: [
+        "Choose wisely.",
+        "Focus.",
+        "Do not rush.",
+        "Your answer matters."
+    ]
+};
+
+function getWizardLine(type){
+    const pool = wizardLines[type] || wizardLines.default;
+    return pool[Math.floor(Math.random() * pool.length)];
+}
+    
 // --- Question Pools follow below ---
   
 const questionBanks = {
@@ -906,7 +938,7 @@ function getMUPerDollar() {
     return {
         q: `A consumer receives MUx = ${mu} from good X. The price of X is $${price}. What is the Marginal Utility per dollar?`,
         options: [`${(mu/price).toFixed(1)}`, `${mu}`, `${price/mu}`, `${(mu*price)}`],
-        a: 0, feedback:`MU per dollar = MU / Price = ${mu} / ${price} = ${(mu/price).toFixed(1)}`
+        a: 0,  type: calculation, feedback:`MU per dollar = MU / Price = ${mu} / ${price} = ${(mu/price).toFixed(1)}`
     };
     
 }
@@ -922,7 +954,7 @@ function getEquilibriumCheck() {
     return {
         q: `A consumer is in equilibrium. MUx = ${muX} and Px = $${pX}. If the price of Good Y (Py) is $${pY}, what must be the Marginal Utility of Good Y (MUy)?`,
         options: [`${correctMUy}`, `${correctMUy / 2}`, `${correctMUy + 10}`, `${muX}`],
-        a: 0, feedback:`Consumer equilibrium requires MUx/Px = MUy/Py. ${muX}/${pX} = ${ratio}. So MUy must equal ${correctMUy}.`
+        a: 0,  type: calculation, feedback:`Consumer equilibrium requires MUx/Px = MUy/Py. ${muX}/${pX} = ${ratio}. So MUy must equal ${correctMUy}.`
     };
 }
 function getElasticityCalc() {
@@ -974,7 +1006,7 @@ function getElasticityCalc() {
     return {
         q: `When the price of a good increases from $${p1} to $${p2}, the quantity demanded decreases from ${q1} units to ${q2} units. Using the Midpoint (Arc) Method, what is the price elasticity of demand?`,
         options: options,
-        a: options.indexOf(correct),
+        a: options.indexOf(correct), type: calculation, 
         hint: "Arc Elasticity = [(Q2-Q1)/((Q1+Q2)/2)] / [(P2-P1)/((P1+P2)/2)]",
         feedback: `Elasticity ≈ ${elasticity}. Demand is ${classify(elasticityVal)}.`
     };
@@ -998,7 +1030,7 @@ function getConsumerSurplusCalc() {
             `$${wtp - finalPrice}`, 
             `$${priceDrop + 10}`, 
             `$${wtp - initialPrice}`
-        ],a: 0, feedback:`Consumer surplus increases by the change in price: ${initialPrice} - ${finalPrice} = ${surplusIncrease}.`
+        ],a: 0, type: calculation, feedback:`Consumer surplus increases by the change in price: ${initialPrice} - ${finalPrice} = ${surplusIncrease}.`
     };
     
 }
@@ -1251,7 +1283,7 @@ function loadQuestion() {
     <div class="boss-q" style="--bossColor:${bColor}">
     ${currentQuestion.q}
     </div>`;
-    } else {
+   } else {
     if(diff === "calculation"){
         const generator = pickCalcGenerator();
         currentQuestion = shuffleOptions(generator());
@@ -1266,13 +1298,24 @@ function loadQuestion() {
         currentQuestion = shuffleOptions(randomQuestion(diff));
     }
 
+    // --- WIZARD LOGIC (RIGHT HERE) ---
+    if(!currentQuestion.type){
+        currentQuestion.type = "interpretation";
+    }
+
+    const wizardText = getWizardLine(currentQuestion.type);
+    wizardSpeak(wizardText);
+
+    // --- UI ---
     bossMsg.innerText = (room === 9 || room === 19 || room === 29)
         ? "⚠️ DANGER: BOSS DETECTED IN NEXT ROOM ⚠️"
         : "";
     bossMsg.style.color = "#ef4444";
-    questionElement.innerText = currentQuestion.q;
-}
 
+    questionElement.innerHTML = `
+        <div>${currentQuestion.q}</div>
+    `;
+}
     // 4. Update Hints and Draw Buttons
     document.getElementById("formulaHint").innerText = currentQuestion.hint ? "💡 Hint: " + currentQuestion.hint : "";
     displayQuestion();
