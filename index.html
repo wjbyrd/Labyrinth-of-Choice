@@ -168,35 +168,35 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
 ========================================= */
 
 .top-panel{
-    width:100%;
-    max-width: 1100px;
     display:flex;
-    justify-content:center;
-    align-items:flex-start;
-    gap:20px;
+    flex-direction:column;   /* STACK */
+    align-items:center;      /* CENTER */
+    gap:16px;
+    width:100%;
+    max-width:700px;         /* SMALLER footprint */
     margin:0 auto 20px auto;
 }
 
 /* Maze Tracker Box */
 #mazeTrackContainer{
-    flex:2;
-    background:#020617;
-    padding:15px;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,0.08);
+    width:100%;
+    padding:12px;
+    transform:scale(0.9);   /* subtle shrink */
+    transform-origin: top center;
 }
 
-/* Artifact Box override */
 #artifactVault{
-    flex:1;
-    display:block !important;
-    margin-top:0;
+    width:100%;
+    padding:12px;
+    transform:scale(0.9);
+    transform-origin: top center;
 }
 
 /* Main Game Row */
 .main-panel{
     display:flex;
     gap:20px;
+    justify-content:center;
     width:100%;
     align-items: flex-start;
 }
@@ -212,6 +212,7 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
     box-shadow:0 0 25px rgba(0,0,0,0.6);
     max-width:1100px;
     width:100%;
+    margin:0 auto;
 }
    
 /* Wizard Box */
@@ -223,6 +224,7 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
     padding:15px;
     display:flex;
     justify-content:center;
+    flex:0 0 180px;
     flex-shrink: 0;
     align-items:flex-start;
     border:1px solid rgba(255,255,255,0.08);
@@ -237,8 +239,24 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
 /* Game Box adjustment */
 #gameBox{
     flex:1;
-    min-width: 500px;
+     min-width:0;
 }   
+
+/* =========================================
+   12. BOSS MODE (UI STATE OVERRIDES)
+========================================= */
+.boss-mode #wizardBox{
+    display:none;
+}
+
+.boss-mode #gameBox{
+    max-width:700px;
+    margin:0 auto;
+}
+
+.boss-mode #gameShell{
+    justify-content:center;
+}
    
 </style>
 </head>
@@ -1154,13 +1172,14 @@ function loadQuestion() {
         playExplorationMusic();
         }
 
-    const isBoss = diff.includes("Boss");
-    const wizard = document.getElementById("wizardBox");
-    if(isBoss){
-    wizard.style.display = "none";
-    } else {
-    wizard.style.display = "flex";
-    }
+   const isBoss = diff.includes("Boss");
+   document.body.classList.toggle("boss-mode", isBoss);
+   const shell = document.getElementById("gameShell");
+   const wizard = document.getElementById("wizardBox");
+   // --- UI MODE SWITCH ---
+      if(shell){
+       shell.style.justifyContent = isBoss ? "center" : "flex-start";
+         }
    
     // 2. UI & Progress Updates
     gameBox.classList.toggle("boss-mode", isBoss);
