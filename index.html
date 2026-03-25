@@ -1099,7 +1099,13 @@ function pickRandom(pool){
 }
 
 let currentMusic = null;
-    
+
+function stopAllMusic(){
+    if(explorationMusic) explorationMusic.pause();
+    if(bossMusic) bossMusic.pause();
+    if(finalBossMusic) finalBossMusic.pause();
+}
+   
 function playExplorationMusic(){
     if(currentMusic === "exploration") return;
     stopAllMusic();
