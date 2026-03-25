@@ -423,7 +423,7 @@ filter:drop-shadow(0 0 18px rgba(239,68,68,.9));
     <button class="fullscreenBtn" onclick="goFullscreen()">Fullscreen</button>
     <div id="autosave">💾 Progress Autosaved</div>
 <div id="gameBox">
-      <img src="torch.gif" class="torch left-torch">
+    <img src="torch.gif" class="torch left-torch">
      <img src="torch.gif" class="torch right-torch">
     <h2>The Labyrinth of Choice</h2>
     <p id="areaDisplay" class="area-title"></p>
@@ -464,14 +464,18 @@ filter:drop-shadow(0 0 18px rgba(239,68,68,.9));
     </div>
 </div>
 <script>
-const bgMusic = new Audio('monk_chant.wav'); 
+const bgMusic = new Audio('chamber.wav'); 
 bgMusic.loop = true; 
 bgMusic.volume = 0.1; 
 
 const bossMusic = new Audio('boss_battle_music.wav');
 bossMusic.loop = true;
 bossMusic.volume = 0.10;
-  
+
+const finalBossMusic = new Audio('final_boss_music.wav');
+finalBossMusic.loop = true;
+finalBossMusic.volume = 0.12; // slightly louder, it's the final fight    
+    
 const sfxMilestone = new Audio('streak.wav');
 const sfxVictory = new Audio('victory.wav');
 const sfxBossHit = new Audio('boss_hit.wav');
