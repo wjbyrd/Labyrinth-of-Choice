@@ -140,7 +140,7 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
 .decomposerGlow { filter: drop-shadow(0 0 14px rgba(168,85,247,.8)); }
 .finalBoss { filter: drop-shadow(0 0 18px rgba(239,68,68,.9)); }
 
-.torch { position: absolute; width: 70px; top: 30px; z-index: 10; animation: torchFlicker 3s infinite alternate; pointer-events: none; opacity: .95; filter: drop-shadow(0 0 12px rgba(255,180,80,.7)); }
+.torch { position: absolute; width: 70px; top: 30px; z-index: 10; animation: torchFlicker 3s infinite alternate; pointer-events: none; opacity: .95; filter: drop-shadow(0 0 12px rgba(255,180,80,.7)); display:none; }
 .left-torch { left: 18px; }
 .right-torch { right: 18px; transform: scaleX(-1); }
 
@@ -239,18 +239,19 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
     min-width:180px;
     background:#0f172a;
     border-radius:12px;
-    padding:15px;
+    padding:0;
     display:flex;
     justify-content:center;
     flex:0 0 180px;
     flex-shrink: 0;
-    align-items:flex-start;
+    align-items:center;
+    margin-bottom: 10px;
     border:1px solid rgba(255,255,255,0.08);
 }
 
 /* Wizard Image */
 #wizardImage{
-    width:140px;
+    width:110px;
     filter: drop-shadow(0 0 12px rgba(96,165,250,.6));
 }
 
