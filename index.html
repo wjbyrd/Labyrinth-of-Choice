@@ -21,7 +21,7 @@ body {
     position: relative;
     display: flex;
     justify-content: center;
-    align-items: flex-start;
+    align-items: stretch;
     gap: 40px;
     width: 100%;
     max-width: 1100px;
@@ -53,7 +53,7 @@ body {
     box-shadow: 0 0 50px rgba(239, 68, 68, 0.4), inset 0 0 20px rgba(239, 68, 68, 0.2);
 }
 
-.hit { box-shadow: 0 0 60px #ef4444, inset 0 0 40px #7f1d1d !important; animation: shake 0.4s ease; }
+.hit { box-shadow: 0 0 60px #ef4444, inset 0 0 40px #7f1d1d !important; animation: hitshake 0.4s ease; }
 #autosave { position: absolute; top: 15px; right: 15px; font-size: 11px; opacity: 0.5; font-style: italic; }
 
 /* =========================================
@@ -105,7 +105,7 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
 #artifactImage { width: 96px; margin-bottom: 8px; }
 #artifactDrop img { filter: drop-shadow(0 0 12px rgba(56,189,248,.8)); }
 
-#artifactVault { margin-top: 60px; width: 260px; padding: 18px; border-radius: 12px; background: linear-gradient(180deg,#020617,#020617 60%,#020617 100%); box-shadow: 0 0 25px rgba(56,189,248,.15); border: 1px solid rgba(56,189,248,.25); text-align: center; display: none; }
+#artifactVault { margin-top: 60px; width: 260px; padding: 18px; border-radius: 12px; background: linear-gradient(180deg,#020617,#020617 60%,#020617 100%); box-shadow: 0 0 25px rgba(56,189,248,.15); border: 1px solid rgba(56,189,248,.25); text-align: center; display:block !important; }
 #artifactVault h3 { color: #60a5fa; margin: 0 0 14px 0; }
 
 .vaultRow { display: flex; flex-direction: column; align-items: center; gap: 18px; }
@@ -137,7 +137,7 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
 ========================================= */
 #startScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('start_screen_image.png'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
-#hallwayTransition { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)), url('hallway1.png'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; text-align: center; color: white; font-size: 26px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 1.2s ease; animation: hallwayZoom 3.2s linear forwards; }
+#hallwayTransition { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)), url('hallway1.png'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; text-align: center; color: white; font-size: 26px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 1.2s ease; animation: hallwayZoom 3.2s ease-out forwards; }
 #hallwayTransition.active { opacity: 1; }
 #hallwayText { max-width: 600px; background: rgba(0,0,0,0.55); padding: 30px; border-radius: 10px; border: 1px solid rgba(255,255,255,0.15); box-shadow: 0 0 25px rgba(0,0,0,0.6); }
 
@@ -152,7 +152,8 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
 @keyframes bossFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
 @keyframes relicPulse { 0%, 100% { filter: drop-shadow(0 0 8px #38bdf8); } 50% { filter: drop-shadow(0 0 18px #60a5fa); } }
 @keyframes fadeOut { 0%, 70% { opacity: 1; } 100% { opacity: 0; } }
-
+@keyframes hallwayZoom { 0% { transform: scale(1); opacity: 0; } 20% { opacity: 1;} 100% {transform: scale(1.08); opacity: 1;}}
+   
 /* =========================================
    10. MEDIA QUERIES
 ========================================= */
@@ -161,7 +162,66 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
     #gameBox { transform: scale(0.95); transform-origin: top center; }
     .answers button { flex: 1 1 100%; }
 }
-    
+
+/* =========================================
+   11. PANEL LAYOUT SYSTEM
+========================================= */
+
+.top-panel{
+    width:100%;
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    gap:20px;
+    margin-bottom:20px;
+}
+
+/* Maze Tracker Box */
+#mazeTrackContainer{
+    flex:1;
+    background:#020617;
+    padding:15px;
+    border-radius:12px;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+/* Artifact Box override */
+#artifactVault{
+    display:block !important;
+    margin-top:0;
+}
+
+/* Main Game Row */
+.main-panel{
+    display:flex;
+    gap:20px;
+    width:100%;
+}
+
+/* Wizard Box */
+#wizardBox{
+    width:180px;
+    min-width:180px;
+    background:#0f172a;
+    border-radius:12px;
+    padding:15px;
+    display:flex;
+    justify-content:center;
+    align-items:flex-start;
+    border:1px solid rgba(255,255,255,0.08);
+}
+
+/* Wizard Image */
+#wizardImage{
+    width:140px;
+    filter: drop-shadow(0 0 12px rgba(96,165,250,.6));
+}
+
+/* Game Box adjustment */
+#gameBox{
+    flex:1;
+}   
+   
 </style>
 </head>
 
@@ -181,46 +241,63 @@ button:hover { background: #4b5563; transform: translateY(-2px); }
     <input type="text" id="usernameInput" placeholder="Enter Name..." style="padding:15px; border-radius:8px; border:1px solid #374151; background:#1f2937; color:white; font-size:20px; margin-bottom:20px; text-align:center; outline:none; width:300px; box-shadow: 0 0 15px rgba(0,0,0,0.5);">
     <button onclick="startGame()" style="background:#30bbdd; color:#000; font-weight:bold; padding:15px 50px; font-size:20px; cursor:pointer; border-radius:8px; border:none; transition: transform 0.2s;">ENTER THE ARCHIVES</button>
 </div>
-    <div class="dungeon-container">
+<div class="dungeon-container">
     <button class="fullscreenBtn" onclick="goFullscreen()">Fullscreen</button>
-    <div id="autosave">💾 Progress Autosaved</div>
-<div id="gameBox">
-    <img src="torch.gif" class="torch left-torch">
-    <img src="torch.gif" class="torch right-torch">
-    <h2>The Labyrinth of Choice</h2>
-    <p id="areaDisplay" class="area-title"></p>
-    <div id="progressBar"><div id="progressFill"></div></div>
-    <div id="mazeTrack"></div>
-    <div id="streakDisplay" style="font-weight:bold; color:#60a5fa; height:24px; margin-top:5px;"></div>
-    <p id="bossMessage"></p>
-    <div id="questionContainer">
-        <p id="question" aria-live="polite"></p>
-        <div id="formulaHint" class="hint-box"></div>
+    <!-- TOP PANEL -->
+    <div class="top-panel">
+        <div id="mazeTrackContainer">
+            <div id="mazeTrack"></div>
+        </div>
+        <div id="artifactVault">
+            <h3>Relics Recovered</h3>
+            <div class="vaultRow">
+                <div id="vaultSeal" class="artifactSlot">
+                    <img src="seal_of_preferences.png">
+                    <span>Seal of Preferences</span>
+                </div>
+                <div id="vaultPrism" class="artifactSlot">
+                    <img src="prism_of_tradeoffs.png">
+                    <span>Prism of Tradeoffs</span>
+                </div>
+                <div id="vaultScepter" class="artifactSlot">
+                    <img src="scepter_of_elasticity.png">
+                    <span>Scepter of Elasticity</span>
+                </div>
+            </div>
+        </div>
     </div>
-    <div id="answers"></div>
-    <p id="message" aria-live="polite"></p>
-    <div id="artifactDrop" style="display:none;text-align:center;margin-top:20px;">
-    <img id="artifactImage" width="96">
-    <h3 id="artifactTitle"></h3>
-    <p id="artifactText"></p>
-</div>
-</div>
-<div id="artifactVault">
-    <h3>Relics Recovered</h3>
-    <div class="vaultRow">
-        <div id="vaultSeal" class="artifactSlot">
-            <img src="seal_of_preferences.png">
-            <span>Seal of Preferences</span>
+    <!-- MAIN PANEL -->
+    <div class="main-panel">
+        <!-- WIZARD -->
+        <div id="wizardBox">
+            <img src="wizard.png" id="wizardImage">
         </div>
+        <!-- GAME -->
+        <div id="gameBox">
+            <div id="autosave">💾 Progress Autosaved</div>
+            <img src="torch.gif" class="torch left-torch">
+            <img src="torch.gif" class="torch right-torch">
 
-        <div id="vaultPrism" class="artifactSlot">
-            <img src="prism_of_tradeoffs.png">
-            <span>Prism of Tradeoffs</span>
-        </div>
+            <h2>The Labyrinth of Choice</h2>
+            <p id="areaDisplay" class="area-title"></p>
 
-        <div id="vaultScepter" class="artifactSlot">
-            <img src="scepter_of_elasticity.png">
-            <span>Scepter of Elasticity</span>
+            <div id="progressBar">
+                <div id="progressFill"></div>
+            </div>
+            <div id="streakDisplay"></div>
+            <p id="bossMessage"></p>
+            <div id="questionContainer">
+                <p id="question"></p>
+                <div id="formulaHint" class="hint-box"></div>
+            </div>
+            <div id="answers"></div>
+            <p id="message"></p>
+
+            <div id="artifactDrop" style="display:none;">
+                <img id="artifactImage" width="96">
+                <h3 id="artifactTitle"></h3>
+                <p id="artifactText"></p>
+            </div>
         </div>
     </div>
 </div>
