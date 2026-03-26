@@ -1674,7 +1674,18 @@ function triggerBossShake() {
     }
 }
   
-  
+function generateCode(name, acc, streak, total){
+    let str = `${name}|${acc}|${streak}|${total}|ARCHIVE42`;
+    let hash = 0;
+
+    for(let i = 0; i < str.length; i++){
+        hash = (hash << 5) - hash + str.charCodeAt(i);
+        hash |= 0;
+    }
+
+    return "ARCH-" + Math.abs(hash).toString(36).toUpperCase();
+}
+    
 function handleVictory() {
     bgMusic.pause();
     bossMusic.pause();
@@ -1686,7 +1697,9 @@ function handleVictory() {
     const totalTimeMs = Date.now() - startTime;
     const timeString = formatTime(totalTimeMs);
     const accuracy = Math.round((correctAnswers / totalAttempts) * 100);
-    const verificationCode = "ARCH-" + Math.floor(1000 + Math.random() * 9000);
+    let accuracy = Math.round((correctAnswers / totalAttempts) * 100);
+
+    const verificationCode = generateCode(username, accuracy, maxStreak, totalAttempts);
     
     const gameBox = document.getElementById("gameBox");
     // FIXED: changed totalAttemps to totalAttempts below
