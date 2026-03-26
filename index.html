@@ -8,7 +8,7 @@
    
 <style>
 /* =========================================
-   1. GLOBAL LAYOUT & BACKGROUND (CHANGE PNG WITH NEW GAME)
+   1. GLOBAL LAYOUT & BACKGROUND (CHANGE PNG/JPEG WITH NEW GAME)
 ========================================= */
 body {
     font-family: Arial, sans-serif;
@@ -19,7 +19,7 @@ body {
     justify-content: center;
     align-items: center;
     color: white;
-    background: linear-gradient(rgba(2,6,23,.8), rgba(2,6,23,.8)), url('question_background_image.png');
+    background: linear-gradient(rgba(2,6,23,.8), rgba(2,6,23,.8)), url('question_background_image.jpeg');
     background-size: cover;
     background-position: center;
     background-attachment: scroll;
@@ -150,7 +150,7 @@ button:active {transform: scale(0.96);}
 /* =========================================
    8. TRANSITIONS & SCREENS (CHANGE PNG WITH NEW GAME)
 ========================================= */
-#startScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('start screen image.png'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+#startScreen { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: url('start_screen_image.png'); background-size: cover; background-position: center; background-repeat: no-repeat; z-index: 100; display: flex; flex-direction: column; justify-content: center; align-items: center; }
 
 #hallwayTransition { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,.7),rgba(0,0,0,.7)), url('hallway1.png'); background-size: cover; background-position: center; display: flex; justify-content: center; align-items: center; text-align: center; color: white; font-size: 26px; z-index: 200; opacity: 0; pointer-events: none; transition: opacity 1.2s ease; animation: hallwayZoom 3.2s ease-out forwards; }
 #hallwayTransition.active { opacity: 1; }
