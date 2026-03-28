@@ -33,7 +33,7 @@ If something breaks, check:
 <meta name="viewport" content="width=device-width, initial-scale=1">
     
 <!-- Title can be changed to whatever the game needs -->
-<title>The Microeconomics Foundry</title>
+<title>The Archives of Microeconomics</title>
    
 <style>
 /* =========================================
@@ -134,7 +134,7 @@ You can restyle it completely—just keep structure intact.
     backdrop-filter: blur(6px);
     border-radius: 14px;
     box-sizing: border-box;
-    box-shadow: 0 0 10px rgba(212,175,55,0.6), 0 0 20px rgba(212,175,55,0.5), 0 0 40px rgba(212,175,55,0.3);
+    box-shadow: 0 0 20px rgba(59,130,246,0.25), 0 0 60px rgba(30,64,175,0.15), inset 0 0 25px rgba(0,0,0,0.6);
     border: 1px solid rgba(255,255,255,0.05);
     animation: torchFlicker 6s infinite;
     transition: box-shadow .3s ease;
@@ -235,25 +235,24 @@ Visual feedback = better engagement.
 ========================================= */
 
 /* Base button styling — applies to all buttons */
-button {
-    padding: 12px 22px; margin: 6px; font-size: 16px; cursor: pointer;
-    background: #374151; color: white; border: none; border-radius: 8px; transition: all 0.2s ease;
-}
+button {padding: 12px 22px;margin: 6px;font-size: 16px;cursor: pointer; background: rgba(30,41,59,0.8); color: #e2e8f0; border: 1px solid rgba(148,163,184,0.25);
+border-radius: 8px;box-shadow:0 0 8px rgba(59,130,246,0.15);transition: all 0.2s ease;}
 
 /* Hover feedback — improves interactivity */
-button:hover { background: #4b5563; transform: translateY(-2px); }
+button:hover {background: rgba(59,130,246,0.12);border: 1px solid rgba(96,165,250,0.5);box-shadow: 0 0 18px rgba(96,165,250,0.4);transform: translateY(-2px);}
 
 /* Click feedback — simulates button press */
-button:active {transform: scale(0.96);}
+button:active {transform: scale(0.96);box-shadow: 0 0 6px rgba(59,130,246,0.2),inset 0 0 10px rgba(0,0,0,0.6);}
 
 /* Answer container — controls layout of choices */
 .answers { display: flex; flex-direction: column; justify-content: center; gap: 12px; width: 100%}
 
 /* Individual answer buttons — flexible sizing */
-.answers button { flex: 1 1 100%; min-height: 60px; max-width: 100%; padding: 15px; font-size: 18px; margin: 0; }
+.answers button {flex: 1 1 100%;min-height: 60px; max-width: 100%; padding: 16px;font-size: 18px; margin: 0; background: rgba(15,23,42,0.85);border: 1px solid rgba(148,163,184,0.2);}
 
 /* Utility button (fullscreen toggle) — safe to restyle or move */
-.fullscreenBtn { position: absolute; top: 12px; left: 12px; background: #374151; color: white; border: none; padding: 6px 10px; border-radius: 6px; cursor: pointer; font-size: 12px; }
+.fullscreenBtn {position: absolute;top: 12px;left: 12px;background: rgba(15,23,42,0.9);color: #cbd5f5;border: 1px solid rgba(96,165,250,0.3);padding: 6px 12px;
+    border-radius: 6px;font-size: 12px; box-shadow: 0 0 8px rgba(59,130,246,0.2);}
 
 /* =========================================
    5. PROGRESS & MAZE TRACK — SAFE TO CUSTOMIZE (WITH RULES)
@@ -651,6 +650,7 @@ This controls layout — not game logic.
     gap:6px;
     margin-bottom: 0px;
     border:1px solid rgba(255,255,255,0.08);
+    box-shadow: 0 0 25px rgba(59,130,246,0.2), inset 0 0 20px rgba(0,0,0,0.6);
 }
 
 /* Wizard Name */
