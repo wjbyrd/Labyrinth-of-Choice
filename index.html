@@ -189,15 +189,16 @@ h2 { text-shadow: 0 0 10px rgba(255,255,255,0.3), 0 0 20px rgba(251,191,36,0.2);
 
 /* Main question text — keep readable and centered */
 #question { font-size: clamp(20px, 4vw, 22px); line-height: 1.4; font-weight: 600; margin: 14px 0; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+.question-directive {margin-top: 10px;color: rgba(148,163,184,0.8);letter-spacing: 1px;font-style: italic;text-align: center;}   
 
 /* Boss/summary title — high emphasis text */
-.boss-title { font-size: 28px; font-weight: bold; margin-bottom: 15px; display: block; }
+.boss-title { font-size: 28px; font-weight: bold; margin-bottom: 15px; display: block;color: #fbbf24;text-shadow:0 0 10px rgba(251,191,36,0.6),0 0 25px rgba(249,115,22,0.4);}}
 
 /* Area/zone label — subtle contextual info */
 .area-title { color: #9ca3af; font-size: 14px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 15px; }
 
 /* Boss summary text — left-aligned for readability */
-.boss-q {font-style: italic; font-size: 24px; border-left: 4px solid var(--bossColor); padding-left: 15px; margin: 20px 0; text-align: left;}
+.boss-q {font-style: italic; font-size: 24px; border-left: 4px solid #f97316; padding-left: 15px; margin: 20px 0; text-align: left;}
 
 /* Optional hint display (calculation or guidance) */
 .hint-box { font-size: 13px; color: #fbbf24; margin-top: 15px; opacity: 0.8; height: 18px; }
@@ -288,7 +289,7 @@ If it's unclear, motivation drops.
 ========================================= */
     
 /* Progress bar container — background track */
-#progressBar { width: 100%; height: 22px; background: #2d3748; border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
+#progressBar { width: 100%; height: 22px; background: rgba(30,41,59,0.8); box-shadow: inset 0 0 10px rgba(0,0,0,0.6); border-radius: 12px; margin-bottom: 20px; overflow: hidden; }
     
 /* Progress fill — width controlled by JS */
 #progressFill { height: 100%; width: 0%; background: linear-gradient(90deg, #f59e0b, #ef4444); transition: width 0.4s ease; }
@@ -349,7 +350,7 @@ If it doesn’t feel rewarding, engagement drops.
 
 /* Persistent artifact collection display (top panel) */
 #artifactVault { margin-top: -6px; width: 220px; padding: 18px; border-radius: 12px; background: linear-gradient(180deg,#020617,#020617 60%,#020617 100%); box-shadow: 0 0 25px rgba(56,189,248,.15); border: 1px solid rgba(56,189,248,.25); text-align: center; display:block !important; }
-#artifactVault h3 { color: #60a5fa; margin: 0 0 14px 0; }
+#artifactVault h3 { color: #60a5fa; margin: 0 0 14px 0; text-shadow:0 0 8px rgba(96,165,250,0.4);}
 
 /* Layout container for artifact slots */
 .vaultRow { display: flex; justify-content: center; align-items:flex-end; gap: 15px; flex-wrap:wrap;}
@@ -908,18 +909,17 @@ Respect structure strictly.
         <!-- Dynamic question + answer rendering (DO NOT rename IDs) -->
         <div id="gameBox">
             <div id="autosave">💾 Progress Autosaved</div>
-
             <p id="areaDisplay" class="area-title"></p>
-
             <div id="progressBar">
                 <div id="progressFill"></div>
             </div>
             <div id="streakDisplay"></div>
             <p id="bossMessage"></p>
-            <div id="questionContainer">
-                <p id="question"></p>
-                <div id="formulaHint" class="hint-box"></div>
-            </div>
+         <div id="questionContainer">
+             <p id="question"></p>
+          <div id="formulaHint" class="hint-box"></div>
+             <p class="question-directive"></p>
+         </div>
             <div id="answers"></div>
             <p id="message"></p>
             <!-- Artifact reward popup (triggered after boss victories) -->
@@ -2250,6 +2250,7 @@ function loadQuestion() {
     <div class="boss-q" style="--bossColor:${bColor}">
     ${currentQuestion.q}
     </div>`;
+    document.querySelector(".question-directive").textContent = "";
    } else {
 
     // --- STREAK ADAPTIVE LOGIC ---
@@ -2315,7 +2316,8 @@ else{
         <div>${currentQuestion.q}</div>
     `;
 }
-    
+   document.querySelector(".question-directive").textContent = getWizardLine(currentQuestion.type);
+   
     // 4. Update Hints and Draw Buttons
     document.getElementById("formulaHint").innerText = currentQuestion.hint ? "💡 Hint: " + currentQuestion.hint : "";
     displayQuestion();
