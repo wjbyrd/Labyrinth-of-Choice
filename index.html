@@ -2250,7 +2250,6 @@ function loadQuestion() {
     <div class="boss-q" style="--bossColor:${bColor}">
     ${currentQuestion.q}
     </div>`;
-    document.querySelector(".question-directive").textContent = "";
    } else {
 
     // --- STREAK ADAPTIVE LOGIC ---
@@ -2315,7 +2314,6 @@ else{
     questionElement.innerHTML = `
         <div>${currentQuestion.q}</div>
     `;
-   document.querySelector(".question-directive").textContent = wizardText;
    msgElement.innerHTML = "";
 }
    
