@@ -3824,13 +3824,14 @@ function copyResults() {
         }, 2000);
     });
 }
-
-function sendGameData(payload){
-    fetch("https://script.google.com/macros/s/AKfycbzEaOLUKs1snA7lN7ELjnoqKlUQhGhaHLyjjfiD5LqTP16xnJ8NmR2Q7PXydlEb3fLpUA/exec", {
-        method: "POST",
-        body: JSON.stringify(payload),
-		mode: "no-cors"
-    }).catch(err => console.log("Tracking failed", err));
+function sendGameData(data) {
+  fetch("https://default8de80de86d8a47cbb5bc7fb9b5bf1c.64.environment.api.powerplatform.com:443/powerautomate/automations/direct/workflows/239b526e4b9f4c1997a009d53a32267a/triggers/manual/paths/invoke?api-version=1&sp=%2Ftriggers%2Fmanual%2Frun&sv=1.0&sig=qQhDuP6P3K8mxdCKyBaMw6S0IPd8rBn8BUAEi_CtlxQ", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  }).catch(err => console.log("Telemetry failed:", err));
 }
     
 // =====================================================
