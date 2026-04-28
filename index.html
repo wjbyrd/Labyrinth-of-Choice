@@ -1761,7 +1761,7 @@ function recordAdaptiveAttempt(question, isCorrect, responseTime){
         responseTime,
         tag: question.tag,
         type: question.type || "default",
-        objective: inferObjective(question)
+        objective: currentQuestion.objective || inferObjective(currentQuestion)
     });
 
     if(masteryState.recent.length > 20){
@@ -1893,7 +1893,7 @@ function planRemediation(question, responseTime){
         active: true,
         stage: carelessMiss ? "bridge" : "repair",
         tag: question.tag,
-        objective: inferObjective(question),
+        objective: currentQuestion.objective || inferObjective(currentQuestion)
         sourceType: question.type || "default",
         returnRoom: room,
         originQuestionId: question.id || null,
@@ -2830,7 +2830,7 @@ function shuffleOptions(question){
         hint: question.hint,
         tag: question.tag,
         type: question.type,
-        objective: question.objective,
+        objective: currentQuestion.objective || inferObjective(currentQuestion),
 		image: question.image
     };
 
