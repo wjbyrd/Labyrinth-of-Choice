@@ -2823,18 +2823,17 @@ elasticity:[
 function shuffleOptions(question){
     let q = {
         id: question.id,
-		q: question.q,
+        q: question.q,
         options: [...question.options],
         a: question.a,
         feedback: question.feedback,
         hint: question.hint,
         tag: question.tag,
         type: question.type,
-        objective: currentQuestion.objective,
-		image: question.image
+        objective: question.objective,
+        image: question.image
     };
 
-	// Store correct answer BEFORE shuffle
     let correct = q.options[q.a];
 
     for(let i = q.options.length - 1; i > 0; i--){
@@ -3556,7 +3555,7 @@ function answer(choice) {
         correct: isCorrect ? 1 : 0,
         tag: currentQuestion.tag || "none",
         type: currentQuestion.type || "none",
-        objective: inferObjective(currentQuestion),
+        objective: currentQuestion.objective || inferObjective(currentQuestion),
         responseTime: responseTime,
 	     attempt: totalAttempts ?? 0,
 		  streak: streak ?? 0,
