@@ -3780,6 +3780,37 @@ if(remediationState.active){
 
     resetRemediationState();
 }
+// --- STAGED REMEDIATION TRIGGER ---
+if (!remediationState.active && currentQuestion.tag && shouldTriggerDetour(currentQuestion)) {
+    remediationState = planRemediation(currentQuestion, responseTime) || remediationState;
+    detourActive = true;
+    detourReturnRoom = room;
+
+    const remediationPrompt = getRemediationQuestion(remediationState);
+
+    if (remediationPrompt) {
+        currentQuestion = shuffleOptions(remediationPrompt);
+        adaptiveMode = remediationState.stage;
+
+        document.getElementById("question").innerText =
+            `${getRemediationStageLabel(remediationState.stage)}: ` + currentQuestion.q;
+
+        document.getElementById("formulaHint").innerText =
+            currentQuestion.hint ? "💡 Hint: " + currentQuestion.hint : "";
+
+        const remediationMessage = remediationState.careless
+            ? "You rushed the choice. Slow down and find the path."
+            : remediationState.slowStruggle
+                ? "The Labyrinth resists. Rebuild the concept before advancing."
+                : "The path broke beneath you. Repair the choice before moving on.";
+
+        msgElement.innerHTML =
+            `<span class='fade-out-text'>${remediationMessage}</span>`;
+
+        displayQuestion();
+        return;
+    }
+}
 
     // --- FALLBACK LOGIC ---
     document.getElementById("streakDisplay").innerText = "";
