@@ -3600,9 +3600,11 @@ function answer(choice) {
     // 🔥 TRACK EVERYTHING (ONE LOCATION ONLY)
     // =============================================
     sendGameData({
+		rundID: runID;
         game: "The Labyrinth of Choice",
         event: "question",
         user: username || "anonymous",
+		email: stduentEmail || "",
         room: room,
         questionId: currentQuestion.id || 0,
         correct: isCorrect ? 1 : 0,
@@ -3732,9 +3734,11 @@ if(remediationState.active){
         }
          // Boss defeated
          sendGameData({
-            game: "The Labyrinth of Choice",
+            runID: runID,
+			game: "The Labyrinth of Choice",
             event: "boss_defeated",
             user: username,
+			email: studentEmail, 
             room: room
          });
            
@@ -4225,9 +4229,11 @@ function handleVictory() {
     const accuracy = Math.round((correctAnswers / totalAttempts) * 100);
     const verificationCode = generateCode(username, accuracy, maxStreak, totalTimeMs);
 sendGameData({
-    game: "The Labyrinth of Choice",
+    runId: runId,
+	game: "The Labyrinth of Choice",
     event: "complete",
     user: username,
+	email: studentEmail,
     room: room,
     questionId: 0,
     correct: 1,
@@ -4461,6 +4467,7 @@ function sendGameData(data) {
     game: data.game || "The Labyrinth of Choice",
     event: data.event || "",
     user: data.user || username || "anonymous",
+	email: studentEmail || "",
     room: Number(data.room ?? 0),
     questionId: Number(data.questionId ?? data.question ?? 0),
     correct: Number(data.correct ?? 0),
