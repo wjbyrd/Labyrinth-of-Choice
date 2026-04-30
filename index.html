@@ -2222,11 +2222,12 @@ scepter:{
 // Removing this will NOT break the game,
 // but will remove convenience for returning users.
 // =============================================
-const savedUser = localStorage.getItem("gauntletUser");
-if(savedUser){
-    document.getElementById("usernameInput").value = savedUser;
-}
+const savedEmail = localStorage.getItem("gauntletEmail");
+const emailInput = document.getElementById("emailInput");
 
+if (savedEmail && emailInput) {
+    emailInput.value = savedEmail;
+}
 // =============================================
 // GAME INITIALIZATION — PARTIAL CUSTOMIZATION
 // =============================================
