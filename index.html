@@ -1330,7 +1330,7 @@ Respect structure strictly.
    <div class="start-content">
       <h1 class="title">THE LABYRINTH OF CHOICE</h1>
       <h2 class="subtitle">Choices Drive Demand</h2>
-      <input id="usernameInput" type="text" placeholder="Identify yourself, Adventurer" class="name-input" ...>
+      <input id="emailInput" type="email" placeholder="Enter your school email" class="name-input">
       <button class="start-btn" onclick="startGame()">ENTER THE LABYRINTH</button></div>
    </div>
 <div class="dungeon-container">
@@ -1496,6 +1496,8 @@ let bossCheckpoint = 1;
 let correctAnswers = 0; 
 let maxStreak = 0; 
 let username = "";
+let studentEmail = "";
+let runID = "";
 let questionStartTime = 0;
 let streak = 0; 
 let startTime; // Will be set in startGame()
@@ -1539,6 +1541,34 @@ let questionHistory = {
     mediumBoss: [],
     finalBoss: [],
 };
+
+function generatePseudonymFromEmail(email) {
+    const adjectives = [
+        "Iron", "Crimson", "Silent", "Golden", "Shadow", "Blazing",
+        "Stone", "Storm", "Obsidian", "Frost", "Ember", "Steel"
+    ];
+
+    const nouns = [
+        "Anvil", "Hammer", "Falcon", "Forge", "Sentinel", "Warden",
+        "Cipher", "Titan", "Raven", "Vanguard", "Crown", "Engine"
+    ];
+
+    let hash = 0;
+    const cleanEmail = email.trim().toLowerCase();
+
+    for (let i = 0; i < cleanEmail.length; i++) {
+        hash = ((hash << 5) - hash) + cleanEmail.charCodeAt(i);
+        hash |= 0;
+    }
+
+    const positiveHash = Math.abs(hash);
+
+    const adj = adjectives[positiveHash % adjectives.length];
+    const noun = nouns[Math.floor(positiveHash / adjectives.length) % nouns.length];
+    const number = 1000 + (positiveHash % 9000);
+
+    return `${adj}${noun}${number}`;
+}
 
 // =============================================
 // ADAPTIVE ENGINE — DO NOT TOUCH
@@ -2226,21 +2256,38 @@ if(savedUser){
 // - progression bugs
 // =============================================
 function startGame() {
-    let inputName = document.getElementById("usernameInput").value.trim();
-    if (!inputName) {
-        alert("A name is required to bind your soul to the Labyrinth.");
+    let inputEmail = document.getElementById("emailInput").value.trim().toLowerCase();
+
+    if (!inputEmail) {
+        alert("An email is required to bind your soul to the Labyrinth.");
         return;
     }
 
-	bossCheckpoint = 1;
-    username = inputName;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (!emailPattern.test(inputEmail)) {
+        alert("Enter a valid email address.");
+        return;
+    }
+
+    bossCheckpoint = 1;
+
+    studentEmail = inputEmail;
+    username = generatePseudonymFromEmail(studentEmail);
+
+    runID = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`;
+
+    localStorage.setItem("gauntletEmail", studentEmail);
     localStorage.setItem("gauntletUser", username);
-    localStorage.setItem("gauntletRunID", `${Date.now()}-${Math.random().toString(36).slice(2, 8)}`);
-   sendGameData({
-    game: "The Labyrinth of Choice",
-    event: "start",
-    user: username
-});
+    localStorage.setItem("gauntletRunID", runID);
+
+    sendGameData({
+        runID: runID,
+        game: "The Labyrinth of Choice",
+        event: "start",
+        user: username,
+        email: studentEmail
+    });
 
 // =============================================
 // RESET CORE GAME STATE — DO NOT MODIFY STRUCTURE
@@ -2260,18 +2307,20 @@ function startGame() {
     lastTypes = [];
     adaptiveMode = "support";
     resetRemediationState();
+
     localStorage.removeItem("gauntletRoom");
     localStorage.removeItem("vaultSeal");
     localStorage.removeItem("vaultPrism");
     localStorage.removeItem("vaultScepter");
 
     questionHistory = {
-    easy: [], medium: [], hard: [], elite: [], calculation: [],
-    easyBoss: [], mediumBoss: [], finalBoss: []
+        easy: [], medium: [], hard: [], elite: [], calculation: [],
+        easyBoss: [], mediumBoss: [], finalBoss: []
     };
+
     usedQuestions = {
-    easy: [], medium: [], hard: [], elite: [],
-    easyBoss: [], mediumBoss: [], finalBoss: []
+        easy: [], medium: [], hard: [], elite: [],
+        easyBoss: [], mediumBoss: [], finalBoss: []
     };
     
 // =============================================
@@ -2295,37 +2344,37 @@ function startGame() {
    //
    // Mismatches = artifacts won't display
    // =============================================    
-        if(localStorage.getItem("vaultSeal")){
+    if(localStorage.getItem("vaultSeal")){
         document.getElementById("vaultSeal").classList.add("unlocked");
-        }
+    }
 
-        if(localStorage.getItem("vaultPrism")){
+    if(localStorage.getItem("vaultPrism")){
         document.getElementById("vaultPrism").classList.add("unlocked");
-        }    
+    }    
 
-        if(localStorage.getItem("vaultScepter")){
+    if(localStorage.getItem("vaultScepter")){
         document.getElementById("vaultScepter").classList.add("unlocked");
-        }
+    }
   
 // Start game loop: music + timer + first question
     bgMusic.play().catch(e => console.log("Audio started"));
     startTime = Date.now(); 
     loadQuestion();
 }
-
+	 
 // =============================================
 // INPUT SHORTCUT — SAFE TO KEEP OR REMOVE
 // =============================================
 // Allows pressing Enter to start the game
 // Improves usability, does not affect logic
 // =============================================
-document.getElementById("usernameInput").addEventListener("keypress", function(event) {
+document.getElementById("emailInput").addEventListener("keypress", function(event) {
     if (event.key === "Enter") {
         event.preventDefault();
         startGame();
     }
 });
-
+	 
 // =============================================
 // AREA NAMING SYSTEM — SAFE TO CUSTOMIZE (WITH RULES)
 // =============================================
